@@ -15,4 +15,11 @@ def explore(request):
 def displayCharity(request):
     return render(request, 'first_app/charity.html')
     
+def displayStatement(request):
+    return render(request, 'first_app/statement.html')
 
+def adminUsers(request):
+    return render(request, 'first_app/admin_users.html')
+
+def adminCauses(request):
+    return render(request, 'first_app/admin_causes.html')

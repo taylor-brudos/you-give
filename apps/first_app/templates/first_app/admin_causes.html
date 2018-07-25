@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <title>Admin | Users</title>
+    <style>
+    .background {
+        background: linear-gradient(to bottom right, #0970C0, #00AD9D);
+        height: 1000px;
+    }
+    .margin {
+        margin: 20px;
+    }
+    .btn {
+        margin-bottom: 20px;
+    }
+    .button {
+        text-align: center;
+        color: white;
+    }
+    .description {
+        width: 30%;
+    }
+    </style>
+</head>
+<body>
+    <div class="container-fluid background p-0">
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="/explore">
+            {% load static %}
+                <img src="{% static 'first_app/images/globe_trans.png' %}" width="60" height="60" alt="YouGive Logo">
+                YouGive
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/explore">Explore</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/admin/users">Admin<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/1">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">My Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="/">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <nav class="margin" aria-label="Switch between admin modes">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                <a class="page-link" href="/admin/users" tabindex="-1">Users</a>
+                </li>
+                <li class="page-item active">
+                <a class="page-link" href="/admin/causes">Causes<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </nav>
+        <div class="button">
+            <a class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">Add Cause</a><br>
+        </div>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Add Cause</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name:</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Cause name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Mission Statement:</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description:</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Revenue</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Less than $10M</option>
+                                <option>$10M to $50M</option>
+                                <option>More than $50M</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary">Add</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Cause</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name:</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Cause name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Mission Statement:</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description:</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Revenue</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Less than $10M</option>
+                                <option>$10M to $50M</option>
+                                <option>More than $50M</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Mission Statement:</th>
+                <th scope="col">Description</th>
+                <th scope="col">Revenue</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>International Justice Mission</td>
+                    <td>This is the Mission Statement.</td>
+                    <td class="description">This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. </td>
+                    <td>More than $50M</td>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#exampleModalEdit">Edit</a> |
+                        <a href="">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Compassion International</td>
+                    <td>This is the Mission Statement.</td>
+                    <td class="description">This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. </td>
+                    <td>Less than $10M</td>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#exampleModalEdit">Edit</a> |
+                        <a href="">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>World Vision</td>
+                    <td>This is the Mission Statement.</td>
+                    <td class="description">This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. </td>
+                    <td>$10M to $50M</td>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#exampleModalEdit">Edit</a> |
+                        <a href="">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

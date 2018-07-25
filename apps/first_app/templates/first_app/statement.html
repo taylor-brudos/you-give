@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <title>YouGive | Tax Statement</title>
+    <style>
+    /* * {
+        outline: 2px dotted pink;
+    } */
+    .cushion {
+        margin-top: 10px;
+    }
+    .centered {
+        text-align: center;
+    }
+    .inline-b {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .header {
+        text-align: center;
+        width: 650px;
+        vertical-align:bottom;
+    }
+    .bold {
+        font-weight: bold;
+        margin: 0px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        {% load static %}
+        <a class="cushion" href="/user/1">Go Back</a><br>
+        <img class="inline-b" src="{% static 'first_app/images/sqaure_v2_trans.png' %}" width="250" height="250" alt="YouGive Logo">
+        <div class="inline-b header">
+            <h1>YouGive</h1>
+            <h4>555 Giving Way</h4>
+            <h4>Charity City, CA, 91234</h4>
+        </div>
+        <p class="bold">Annual Charitable Cash Contributions</p>
+        <p class="bold">Donor: User Name</p>
+        <p class="bold">Date: 7/24/2018</p>
+        <br>
+        <p>This statement contains a record of voluntary contributions to YouGive made by User Name during the 2018 year.  No goods or services were provided by YouGive in return for these contributions. All contributions listed below are fully tax-deductible.  Please consult your tax advisor for further details.</p>
+        <p>Thank you for your generous gifts!</p>
+        <p>Sincerely,</p>
+        <p>YouGive Team</p>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cause</th>
+                <th scope="col">Date</th>
+                <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <th scope="row">1</th>
+                <td>World Vision</td>
+                <td>1/12/2018</td>
+                <td>$25.00</td>
+                </tr>
+                <tr>
+                <th scope="row">2</th>
+                <td>Compassion International</td>
+                <td>3/26/2018</td>
+                <td>$100.00</td>
+                </tr>
+                <tr>
+                <th scope="row">3</th>
+                <td>Gospel for Asia</td>
+                <td>5/30/2018</td>
+                <td>$70.50</td>
+                </tr>
+                <th scope="row"></th>
+                <td class="bold">All Causes</td>
+                <td class="bold">Total in 2018</td>
+                <td class="bold">$195.50</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -44,7 +44,7 @@
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <a class="nav-item nav-link active" id="nav-active-tab" data-toggle="tab" href="#nav-active" role="tab" aria-controls="nav-active" aria-selected="true">Active</a>
                                 <a class="nav-item nav-link" id="nav-invites-tab" data-toggle="tab" href="#nav-invites" role="tab" aria-controls="nav-invites" aria-selected="false">Invites</a>
-                                <a class="nav-item nav-link" id="nav-manage-tab" data-toggle="tab" href="#nav-manage" role="tab" aria-controls="nav-manage" aria-selected="false">Manage your Groups</a>
+                                <a class="nav-item nav-link" id="nav-manage-tab" data-toggle="tab" href="#nav-manage" role="tab" aria-controls="nav-manage" aria-selected="false">Manage</a>
                             </div>
                             </nav>
                         <div class="tab-content" id="nav-tabContent">
@@ -185,9 +185,35 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <a href='#' class="btn btn-primary">Tax Statements</a>
+                        <a href='/statement' class="btn btn-primary">Tax Statement</a>
                     </div>
-                    <h3 class="text-center mt-5">Your Portfolio</h3>
+                    
+                    <h3 class="text-center mt-5">Your Wishlist</h3>
+                    <div style="height:280px;overflow-y: scroll;">
+                            <div class="card-deck m-2">
+                                <div class="card shadow rounded">
+                                    <img class="card-img-top" src="{% static "first_app/images/make_a_wish_logo.png" %}" alt="Make a Wish">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Make a Wish</h5>
+                                        <a href="/checkout" class="btn btn-primary card-text">Give Now</a>
+                                    </div>
+                                </div>
+                                <div class="card shadow rounded">
+                                    <img class="card-img-top" src="{% static "first_app/images/arc_logo.jpg" %}" alt="American Red cross">
+                                    <div class="card-body">
+                                        <h5 class="card-title">American Red Cross</h5>
+                                        <a href="/checkout" class="btn btn-primary card-text">Give Now</a>
+                                    </div>
+                                </div>
+                                <div class="card shadow rounded">
+                                    <img class="card-img-top" src="{% static "first_app/images/world_vision_logo.jpg" %}" alt="World Vision">
+                                    <div class="card-body">
+                                        <h5 class="card-title">World Vision</h5>
+                                        <a href="/checkout" class="btn btn-primary card-text">Give Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><h3 class="text-center mt-5">Your Portfolio</h3>
                     <div style="height:280px;overflow-y: scroll;">
                         <div class="card-deck m-2">
                             <div class="card shadow rounded">

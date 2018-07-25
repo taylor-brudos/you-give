@@ -9,11 +9,15 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        <style>
+            .background {
+                background: linear-gradient(to bottom right, #0970C0, #00AD9D)
+            }
+        </style>
         <title>YouGive | Profile</title>
     </head>
     <body>
-                    
-        <div class="container-fluid mx-auto p-0 pb-3">
+        <div class="container-fluid mx-auto p-0 pb-3 background">
             <nav class="navbar navbar-light bg-dark">
                 <a class="navbar-brand" href="/">
                 {% load static %}
@@ -46,26 +50,113 @@
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-active" role="tabpanel" aria-labelledby="nav-active-tab">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupModal">Group 1 Placeholder</a></li>
-                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupModal">Group 2 Placeholder</a></li>
-                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupModal">Group 3 Placeholder</a></li>
-                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupModal">Group 4 Placeholder</a></li>
+                                    <li class="list-group-item"><a data-toggle="modal" data-target="#activeModal">Contribute to World Vision!</a></li>
+                                    <li class="list-group-item"><a data-toggle="modal" data-target="#activeModal">Group 2 Placeholder</a></li>
+                                    <li class="list-group-item"><a data-toggle="modal" data-target="#activeModal">Group 3 Placeholder</a></li>
+                                    <li class="list-group-item"><a data-toggle="modal" data-target="#activeModal">Group 4 Placeholder</a></li>
                                 </ul>
                             </div>
                             <div class="tab-pane fade" id="nav-invites" role="tabpanel" aria-labelledby="nav-invites-tab">Placeholder for accepting or declining group invitations</div>
-                            <div class="tab-pane fade" id="nav-manage" role="tabpanel" aria-labelledby="nav-manage-tab">Placeholder for managing your groups</div>
+                            <div class="tab-pane fade" id="nav-manage" role="tabpanel" aria-labelledby="nav-manage-tab">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupEditModal">Contribute to World Vision!</a></li>
+                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupEditModal">Group 2 Placeholder</a></li>
+                                </ul>
+                                <a href="/addgroup" class="btn btn-primary mt-2">Create a group</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="groupModal" role="dialog">
+                    <div class="modal fade" id="activeModal" role="dialog">
                         <div class="modal-dialog">
                         
                             <!-- Modal content-->
                             <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Group 1</h4>
+                                <h4 class="modal-title">Contribute to World Vision!</h4>
+                                
+                                
                             </div>
                             <div class="modal-body">
-                                <p>Placeholder for info about group 1</p>
+                                <h5>Collected $XX.XX as of today.</h5>
+                                <div class="form-group">
+                                    <label for="invite">Invite other YouGive members: </label>
+                                    <select class="form-control col-sm-3" name="invite">
+                                        <option active>member1</option>
+                                        <option>member 2</option>
+                                        <option>member 3</option>
+                                        <option>member 4</option>
+                                    </select>
+                                    <a href="/invite" class="btn btn-sm btn-primary mt-2 shadow rounded">Invite</a>
+                                </div>
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>Goal: $XXX.XX</td>
+                                            <td>Organization: World Vision</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Target date: XX-XX-XXXX</td>
+                                        </tr>
+                                        <tr>Contributers: </tr>
+                                        <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
+                                            <p class="text-success">User 1 contributed $ X.XX</p>
+                                            <p class="text-success">User 2 contributed $ XX.XX</p>
+                                            <p class="text-success">User 3 contributed $ XXX.XX</p>
+                                            <p class="text-success">User 4 contributed $ X.XX</p>
+                                            <p class="text-success">User 5 contributed $ XXX.XX</p>
+                                            <p class="text-success">User 6 contributed $ XX.XX</p>
+                                            <p class="text-success">User 7 contributed $ XX.XX</p>
+                                        </div></tr>
+                                    </tbody>
+                                </table>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="amount">Amount: $</label>
+                                        <input class="col-sm-2 rounded" type="text" name="amount" value="10">
+                                        <input type="submit" class="btn btn-sm btn-success shadow rounded" value="Contribute">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="modal fade" id="groupEditModal" role="dialog">
+                        <div class="modal-dialog">
+                        
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Contribute to World Vision!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>Goal (USD):</td><td><input type="text" class="col-md-5 form-control" name="goal" value="XXX.XX"></td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td>Organization: </td>
+                                            <td>    <select class="form-control" name="org">
+                                                    <option active>World Vision</option>
+                                                    <option>Org 2</option>
+                                                    <option>Org 3</option>
+                                                    <option>Org 4</option>
+                                                </select>
+                                            </td>
+                                        </tr> -->
+                                        <tr>
+                                            <td>Target date: </td><td><input class="form-control" type="date" value="XX-XX-XXXX"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                    <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Update">
+                                </form>
+                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

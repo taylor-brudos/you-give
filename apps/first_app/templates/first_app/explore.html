@@ -58,18 +58,28 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
                 </li>
+                {% if 'user_id' in request.session %}
+                {% if request.session.user_level == 1 %}
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/users">Admin</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/1">Dashboard</a>
+                    <a class="nav-link" href="/user/{{request.session.user_id}}">Dashboard</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My Cart</a>
+                    <a class="nav-link" href="/checkout">My Cart</a>
                 </li>
+                {% if 'user_id' in request.session %}
                 <li class="navbar-text text-right">
                     <a href="/logout">Logout</a>
                 </li>
+                {% else %}
+                <li class="navbar-text text-right">
+                    <a href="/register">Login/Register</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
         <div class='centered'>

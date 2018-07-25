@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        <style>
+            .background {
+                background: linear-gradient(to bottom right, #0970C0, #00AD9D)
+            }
+        </style>
+        <title>YouGive | Add a Group</title>
+    </head>
+    <body>
+        <div class="container-fluid mx-auto p-0 pb-3 background">
+            <nav class="navbar navbar-light bg-dark">
+                <a class="navbar-brand" href="/">
+                {% load static %}
+                    <img src="{% static 'first_app/images/globe_trans.png' %}" width="60" height="60" alt="YouGive Logo">
+                </a>
+            </nav>
+            <div class="container bg-light p-3 mt-3 w-25 shadow rounded">
+                <h3 class="text-center mb-5">Add a Group!</h3>
+                <form>
+                    <div class="form-group col-md-12">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" name="title">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="title">Goal: $</label></td>
+                        <input type="text" class="form-control col-md-4" name="goal">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="title">Organization: </label>
+                        <select class="form-control"name="org">
+                            <option active>World Vision</option>
+                            <option>Org 2</option>
+                            <option>Org 3</option>
+                            <option>Org 4</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="title">Target date: </label></td>
+                        <input type="date" class="form-control col-md-6" name="target_date">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="submit" class="btn btn-success shadow rounded" value="Create">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

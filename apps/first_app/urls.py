@@ -17,5 +17,9 @@ urlpatterns = [
     url(r'^admin/users$', views.adminUsers),
     url(r'^login$', views.login),
     url(r'^logout$', views.logout),
-    url(r'^registeruser$', views.registerUser)
+    url(r'^registeruser$', views.registerUser),
+    url(r'^deleteuser$', views.deleteUser),
+    url(r'^updateuser$', views.updateUser),
+    url(r'^adduser$', views.addUser),
+    url(r'^addcause$', views.addCause),
 ]

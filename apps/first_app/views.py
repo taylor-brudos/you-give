@@ -40,7 +40,11 @@ def displayStatement(request):
     return render(request, 'first_app/statement.html')
 
 def adminUsers(request):
-    return render(request, 'first_app/admin_users.html')
+    users = User.objects.all()
+    context = {
+        'users': users
+    }
+    return render(request, 'first_app/admin_users.html', context)
 
 def adminCauses(request):
     return render(request, 'first_app/admin_causes.html')
@@ -69,3 +73,20 @@ def registerUser(request):
 def logout(request):
     request.session.clear()
     return redirect('/')
+
+def deleteUser(request):
+    if request.method=='POST':
+        this_user = User.objects.get(id=request.POST['user_id'])
+        this_user.delete()
+    return redirect('/admin/users')
+
+def updateUser(request):
+    return redirect('/admin/users')
+
+def addUser(request):
+    return redirect('/admin/users')
+
+def addCause(request):
+    if request.method=='POST':
+        new_cause = Cause.objects.create(name=request.POST['name'], mission_stmt=request.POST['mission'], desc=request.POST['desc'], ein=request.POST['ein'],revenue=Revenue.objects.get(id=1), admin=User.objects.get(id=request.session['user_id']))
+    return redirect('/admin/causes')

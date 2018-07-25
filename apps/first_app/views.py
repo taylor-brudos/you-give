@@ -1,4 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
+import bcrypt
 
 from .models import *
 
@@ -6,7 +8,10 @@ from .models import *
 # Create your views here.
 
 def index(request):
-    return render(request,'first_app/index.html')
+    if 'user_id' in request.session:
+        return redirect('/explore')
+    else:
+        return render(request,'first_app/index.html')
 
 def userProfile(request,id):
     return render(request,'first_app/userprofile.html')
@@ -37,10 +42,25 @@ def adminCauses(request):
 
 def login(request):
     if request.method == "POST":
-        print(request.POST)
-        return HttpResponse("This is the login method")
+        errors=User.objects.login_validator(request.POST)
+        if len(errors):
+            request.session['loginemail']=request.POST['email']
+            for key,value in errors.items():
+                messages.error(request,value,extra_tags='login')
+        else:
+            user=User.objects.get(email=request.POST['email'])
+            request.session['user_id']=user.id
+            request.session['user_level']=user.user_level
+            request.session['first_name']=user.first_name
+            messages.success(request,"Successfully logged in!")
+        return redirect('/')
       
 def registerUser(request):
     if request.method=='POST':
-        print(request.POST)
-    return HttpResponse(request.POST)
+        password_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
+        registerUser=User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=password_hash, user_level=0)
+    return redirect('/explore')
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')

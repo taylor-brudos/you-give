@@ -3,6 +3,18 @@ import bcrypt
 import re
 import datetime
 
+class UserManager(models.Manager):
+    def login_validator(self,postData):
+        errors={}
+        user=User.objects.filter(email=postData['email'])
+        if len(postData['email'])<1 or len(postData['password'])<1:
+            errors['emptyField']="Email and password fields cannot be empty"
+        elif not len(user):
+            errors['noemail']="Invalid login!"
+        elif not bcrypt.checkpw(postData['password'].encode(), user.values()[0]['password'].encode()):
+            errors['failedAuth']="Invalid login!"
+        return errors
+
 class Revenue(models.Model):
     revenue = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
@@ -16,6 +28,7 @@ class User(models.Model):
     user_level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    objects=UserManager()
 
 class Cause(models.Model):
     name = models.CharField(max_length=255)

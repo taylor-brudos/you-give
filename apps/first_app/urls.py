@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'^charity$', views.displayCharity),
     url(r'^admin/users$', views.adminUsers),
     url(r'^login$', views.login),
+    url(r'^logout$', views.logout),
     url(r'^registeruser$', views.registerUser)
 ]

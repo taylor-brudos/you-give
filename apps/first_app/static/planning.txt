@@ -19,9 +19,19 @@ Checkout ~ Tenju
     - pass through session data
     - submitting order goes to database if order is successful
 
-
+Other to-do:
 Ajax
 Change "Charity" to "Cause" throughout
-Validations
+Validations (login, registration, add/edit user/cause)
 Navbar 
+
+
+
+Admin login:
+admin@dev.null
+YouGive2018
+
+User login:
+taylorbrudos@dev.null
+pa55word123
 

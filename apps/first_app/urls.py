@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^user/(?P<id>\d+)',views.userProfile),
+    url(r'^dashboard$',views.userProfile),
     url(r'^explore$', views.explore),
     url(r'^addgroup$', views.addGroup),
     url(r'^checkout$', views.checkout),

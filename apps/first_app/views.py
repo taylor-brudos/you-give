@@ -1,5 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
 
+from .models import *
+
+
 # Create your views here.
 
 def index(request):
@@ -36,3 +39,8 @@ def login(request):
     if request.method == "POST":
         print(request.POST)
         return HttpResponse("This is the login method")
+      
+def registerUser(request):
+    if request.method=='POST':
+        print(request.POST)
+    return HttpResponse(request.POST)

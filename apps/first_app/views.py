@@ -13,8 +13,13 @@ def index(request):
     else:
         return render(request,'first_app/index.html')
 
-def userProfile(request,id):
-    return render(request,'first_app/userprofile.html')
+def userProfile(request):
+    if 'user_id' in request.session:
+        context = {
+            "user":User.objects.get(id=request.session['user_id']),
+            "all_users":User.objects.all()
+        }
+        return render(request,'first_app/userprofile.html',context)
 
 def explore(request):
     return render(request, 'first_app/explore.html')

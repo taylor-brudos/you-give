@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse, redirect
+from .models import *
 
 # Create your views here.
 
@@ -31,3 +32,8 @@ def adminUsers(request):
 
 def adminCauses(request):
     return render(request, 'first_app/admin_causes.html')
+
+def registerUser(request):
+    if request.method=='POST':
+        print(request.POST)
+    return HttpResponse(request.POST)

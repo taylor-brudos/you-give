@@ -34,7 +34,8 @@
 <body>
     <div class="container-fluid">
         {% load static %}
-        <a class="cushion" href="/user/1">Go Back</a><br>
+        <div class="container">
+            <a class="cushion" href="/user/1">Go Back</a><br>
         <img class="inline-b" src="{% static 'first_app/images/sqaure_v2_trans.png' %}" width="250" height="250" alt="YouGive Logo">
         <div class="inline-b header">
             <h1>YouGive</h1>
@@ -84,6 +85,8 @@
                 </tr>
             </tbody>
         </table>
+        </div>
+        
     </div>
 </body>
 </html>

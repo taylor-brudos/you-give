@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
+
 from .models import *
+
 
 # Create your views here.
 
@@ -33,6 +35,11 @@ def adminUsers(request):
 def adminCauses(request):
     return render(request, 'first_app/admin_causes.html')
 
+def login(request):
+    if request.method == "POST":
+        print(request.POST)
+        return HttpResponse("This is the login method")
+      
 def registerUser(request):
     if request.method=='POST':
         print(request.POST)

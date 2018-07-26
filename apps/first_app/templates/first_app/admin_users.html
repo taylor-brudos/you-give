@@ -96,31 +96,32 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="/adduser" method="post">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="exampleInputEmail1">First Name:</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First name">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First name" name="first_name">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Last Name:</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last name">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last name" name="last_name">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email:</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Level</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>User</option>
-                                <option>Admin</option>
+                            <select class="form-control" id="exampleFormControlSelect1" name="user_level">
+                                <option value="0">User</option>
+                                <option value="1">Admin</option>
                             </select>
                         </div>
-                        <button type="button" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </form>
                 </div>
                 </div>
@@ -166,27 +167,29 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="/updateuser" method="post">
+                                        {% csrf_token %}
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">First Name:</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{user.first_name}}">
+                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="first_name" value="{{user.first_name}}">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Last Name:</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{user.last_name}}">
+                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="last_name" value="{{user.last_name}}">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Email:</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{user.email}}">
+                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" value="{{user.email}}">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleFormControlSelect1">Level</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>User</option>
-                                                <option>Admin</option>
+                                            <select class="form-control" id="exampleFormControlSelect1" name="user_level">
+                                                <option value="0">User</option>
+                                                <option value="1">Admin</option>
                                             </select>
                                         </div>
-                                        <button type="button" class="btn btn-primary">Update</button>
+                                        <input type="hidden" name="user_id" value="{{user.id}}">
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </form>
                                 </div>
                                 </div>

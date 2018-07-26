@@ -53,34 +53,46 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/explore">Explore</a>
                 </li>
+                {% if 'user_id' in request.session %}
+                {% if request.session.user_level == 1 %}
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/users">Admin</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/1">Dashboard</a>
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My Cart</a>
+                    <a class="nav-link" href="/checkout">My Cart</a>
                 </li>
+                {% if 'user_id' in request.session %}
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="/">Logout</a>
+                    <a class="nav-link disabled" href="/logout">Logout</a>
                 </li>
+                {% else %}
+                <li class="navbar-text text-right">
+                    <a href="/register">Login/Register</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
         <div class="inline-b">
             <a href="/explore" class="go-back">Go Back</a>
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{% static 'first_app/images/gfa-logo.jpg' %}" alt="gfa logo">
+                <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="gfa logo">
                 <div class="card-body">
                     <a href="/checkout" class="btn btn-primary">Give Now</a>
+                    {% if 'user_id' in request.session %}
                     <a href="/charity" class="btn btn-secondary">Add to Wishlist</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="inline-b description">
-            <h1>Gospel for Asia</h1>
+            <h1>{{cause.name}}</h1>
             <h4 class="italic">Description</h4>
-            <p>This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  This is a description of the charity.  </p>
+            <p>{{cause.desc}}</p>
         </div>
         <div class="bottom">
             <h2>Similar Organizations</h2>

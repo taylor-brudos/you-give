@@ -1,14 +1,14 @@
-Explore ~ Taylor
+Explore ~ Taylor/Tenju
     - make it look productiony
-    - pass through charities
+    - ***pass through charities
 Charity page ~ Taylor
     - add textbox for amount to give
     - clicking give now should add to cart
-    - wishlist button only if user signed in
-    - pass through charity data to page based on charity id
-Admin ~ Taylor
-    - use containers for tables
-    - CRUD functionalities
+    - ***wishlist button only if user signed in
+    - ***pass through charity data to page based on charity id
+***Admin ~ Taylor
+    - ***use containers for tables
+    - ***CRUD functionalities
 Statement ~ Taylor
     - pass through data to statement 
 Dashboard ~ Tenju
@@ -24,6 +24,8 @@ Ajax
 Change "Charity" to "Cause" throughout
 Validations (login, registration, add/edit user/cause)
 Navbar 
+image db storage
+db github syncing
 
 
 

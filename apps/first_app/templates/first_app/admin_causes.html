@@ -27,6 +27,17 @@
     .margin-sides {
         margin: 0px 30px;
     }
+    .btn-link {
+        border:none;
+        outline:none;
+        background:none;
+        cursor:pointer;
+        color:#0970C0;
+        padding:0;
+        font-family:inherit;
+        font-size:inherit;
+        display: inline-block;
+    }
     </style>
 </head>
 <body>
@@ -106,52 +117,15 @@
                             <label for="exampleInputEmail1">EIN:</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter the EIN" name="ein">
                         </div>
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label for="exampleFormControlSelect1">Revenue</label>
-                            <select class="form-control" id="exampleFormControlSelect1" name="revenue">
-                                <option value="Less than $10M">Less than $10M</option>
-                                <option value="$10M to $50M">$10M to $50M</option>
-                                <option value="More than $50M">More than $50M</option>
+                            <select class="form-control" id="exampleFormControlSelect1" name="revenue_id">
+                                <option value="1">Less than $10M</option>
+                                <option value="2">$10M to $50M</option>
+                                <option value="3">More than $50M</option>
                             </select>
-                        </div> -->
+                        </div>
                         <button type="submit" class="btn btn-primary">Add</button>
-                    </form>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Cause</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Name:</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Cause name">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Mission Statement:</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Description:</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Revenue</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Less than $10M</option>
-                                <option>$10M to $50M</option>
-                                <option>More than $50M</option>
-                            </select>
-                        </div>
-                        <button type="button" class="btn btn-primary">Update</button>
                     </form>
                 </div>
                 </div>
@@ -162,43 +136,79 @@
                 <thead>
                     <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Mission Statement:</th>
+                    <th scope="col">EIN</th>
+                    <th scope="col">Mission Statement</th>
                     <th scope="col">Description</th>
                     <th scope="col">Revenue</th>
                     <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for cause in causes %}
                     <tr>
-                        <td>International Justice Mission</td>
-                        <td>This is the Mission Statement.</td>
-                        <td class="description">This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. </td>
-                        <td>More than $50M</td>
-                        <td>
-                            <a href="" data-toggle="modal" data-target="#exampleModalEdit">Edit</a> |
-                            <a href="">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Compassion International</td>
-                        <td>This is the Mission Statement.</td>
-                        <td class="description">This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. </td>
+                        <td>{{cause.name}}</td>
+                        <td>{{cause.ein}}</td>
+                        <td>{{cause.mission_stmt}}</td>
+                        <td class="description">{{cause.desc}}</td>
+                        {% if cause.revenue_id == 1 %}
                         <td>Less than $10M</td>
-                        <td>
-                            <a href="" data-toggle="modal" data-target="#exampleModalEdit">Edit</a> |
-                            <a href="">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>World Vision</td>
-                        <td>This is the Mission Statement.</td>
-                        <td class="description">This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. This is the description of the organization. </td>
+                        {% elif cause.revenue_id == 2 %}
                         <td>$10M to $50M</td>
+                        {% else %}
+                        <td>More than $50M</td>
+                        {% endif %}
                         <td>
-                            <a href="" data-toggle="modal" data-target="#exampleModalEdit">Edit</a> |
-                            <a href="">Delete</a>
+                            <a href="" data-toggle="modal" data-target="#exampleModalEdit{{cause.id}}">Edit</a>
+                            <form action="/deletecause" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="cause_id" value="{{cause.id}}" class="btn-link">Delete</button>
+                            </form>
                         </td>
                     </tr>
+                    <div class="modal fade" id="exampleModalEdit{{cause.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Cause</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/updatecause" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Name:</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name" value="{{cause.name}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Mission Statement:</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="mission">{{cause.mission_stmt}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Description:</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="desc">{{cause.desc}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">EIN:</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="ein" value="{{cause.ein}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Revenue</label>
+                                            <select class="form-control" id="exampleFormControlSelect1" name="revenue_id">
+                                                <option value="1">Less than $10M</option>
+                                                <option value="2">$10M to $50M</option>
+                                                <option value="3">More than $50M</option>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="cause_id" value="{{cause.id}}">
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

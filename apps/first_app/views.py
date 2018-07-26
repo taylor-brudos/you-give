@@ -51,6 +51,8 @@ def declineInvite(request,id):
 
 
 def explore(request):
+    if 'cart' not in request.session:
+        request.session['cart']=[{'total':0}]
     causes = Cause.objects.all()
     context = {
         'causes': causes
@@ -63,6 +65,29 @@ def displayCharity(request, cause_id):
         'cause': cause
     }
     return render(request, 'first_app/charity.html', context)
+
+def addToWishList(request,id):
+    if 'user_id' in request.session:
+        wisher = User.objects.get(id=request.session['user_id'])
+        cause = Cause.objects.get(id=id)
+        wishList=cause.wishers.add(wisher)
+        messages.success(request,"This Cause has been added to your wishlist!",extra_tags="wishlist")
+        return redirect('/charity/'+id)
+    else:
+        return redirect('/')
+
+def addToCart(request,id):
+    if 'user_id' in request.session:
+        if request.method=='POST':
+            print("before:",request.session['cart'])
+            cart=request.session['cart']
+            cart.append({"cause":Cause.objects.get(id=id),"amount":request.POST['amount'],"source":request.POST['source']})
+            cart[0]['total']+=request.POST['amount']
+            request.session['cart'] = cart
+            print("after:",request.session['cart'])
+        return redirect('/dashboard')
+    else:
+        return redirect('/')
 
 def addGroup(request):
     if 'user_id' in request.session:

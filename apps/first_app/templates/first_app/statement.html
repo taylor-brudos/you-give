@@ -35,7 +35,7 @@
     <div class="container-fluid">
         {% load static %}
         <div class="container">
-            <a class="cushion" href="/user/1">Go Back</a><br>
+            <a class="cushion" href="/dashboard">Go Back</a><br>
         <img class="inline-b" src="{% static 'first_app/images/sqaure_v2_trans.png' %}" width="250" height="250" alt="YouGive Logo">
         <div class="inline-b header">
             <h1>YouGive</h1>
@@ -43,10 +43,10 @@
             <h4>Charity City, CA, 91234</h4>
         </div>
         <p class="bold">Annual Charitable Cash Contributions</p>
-        <p class="bold">Donor: User Name</p>
-        <p class="bold">Date: 7/24/2018</p>
+        <p class="bold">Donor: {{user.first_name}} {{user.last_name}}</p>
+        <p class="bold">Date: {{now | date:"SHORT_DATE_FORMAT"}}</p>
         <br>
-        <p>This statement contains a record of voluntary contributions to YouGive made by User Name during the 2018 year.  No goods or services were provided by YouGive in return for these contributions. All contributions listed below are fully tax-deductible.  Please consult your tax advisor for further details.</p>
+        <p>This statement contains a record of voluntary contributions to YouGive made by {{user.first_name}} {{user.last_name}} during the {{now | date:"Y"}} year.  No goods or services were provided by YouGive in return for these contributions. All contributions listed below are fully tax-deductible.  Please consult your tax advisor for further details.</p>
         <p>Thank you for your generous gifts!</p>
         <p>Sincerely,</p>
         <p>YouGive Team</p>
@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                 <th scope="row">3</th>
-                <td>Gospel for Asia</td>
+                <td>International Justice Mission</td>
                 <td>5/30/2018</td>
                 <td>$70.50</td>
                 </tr>

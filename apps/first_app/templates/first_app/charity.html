@@ -87,11 +87,11 @@
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="gfa logo">
                 <div class="card-body">
-                    <form action='/addtocart/{{cause.id}}' method="POST">
+                    <form action="/{{cause.id}}/give" method="POST">
                             {% csrf_token %}
                             <label for="amount">$</label>
-                            <input class="col-sm-3 rounded" type="text" name="amount" value="10">
-                            <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Give">
+                            <input class="col-sm-3 rounded" type="number" min="1.00" step="1.00" name="amount" value="10">
+                            <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Give Now">
                             <input type="hidden" name="source" value="charity">
                     </form>
                     {% if 'user_id' in request.session %}
@@ -125,8 +125,6 @@
                 </div>
             </div>
         </div>
-        
-
     </div>
 </body>
 </html>

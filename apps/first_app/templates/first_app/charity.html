@@ -82,7 +82,11 @@
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="gfa logo">
                 <div class="card-body">
-                    <a href="/checkout" class="btn btn-primary">Give Now</a>
+                    <form action="{{cause.id}}/give" method="post">
+                        {% csrf_token %}
+                        <input class="inline-b form-control form-control-lg" type="number" min="1.00" step="1.00" name="amount" value="10.00">
+                        <button type="submit" class="btn btn-success">Give Now</button>
+                    </form>
                     {% if 'user_id' in request.session %}
                     <a href="/charity" class="btn btn-secondary">Add to Wishlist</a>
                     {% endif %}
@@ -114,8 +118,6 @@
                 </div>
             </div>
         </div>
-        
-
     </div>
 </body>
 </html>

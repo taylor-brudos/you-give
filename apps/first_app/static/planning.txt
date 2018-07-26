@@ -1,18 +1,20 @@
 Explore ~ Taylor/Tenju
     - make it look productiony
+    - ***add cart session logic
     - ***pass through charities
 Charity page ~ Taylor
-    - add textbox for amount to give
-    - clicking give now should add to cart
+    - ***add textbox for amount to give
+    - ***clicking give now should add to cart
     - ***wishlist button only if user signed in
     - ***pass through charity data to page based on charity id
+    - add pop up after give button hit
 ***Admin ~ Taylor
     - ***use containers for tables
     - ***CRUD functionalities
 Statement ~ Taylor
-    - pass through data to statement 
+    - pass through data to statement (still need to do YTD contributions)
 Dashboard ~ Tenju
-    - groups
+    - ***groups
     - wishlist 
     - portfolio 
 Checkout ~ Tenju
@@ -26,7 +28,8 @@ Validations (login, registration, add/edit user/cause)
 Navbar 
 image db storage
 db github syncing
-
+Stripe
+deploy
 
 
 Admin login:

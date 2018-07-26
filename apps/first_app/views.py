@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 import bcrypt
+import datetime
 
 from .models import *
 
@@ -51,6 +52,8 @@ def declineInvite(request,id):
 
 
 def explore(request):
+    if 'cart' not in request.session:
+        request.session['cart'] = [{'total': 0.00}]
     causes = Cause.objects.all()
     context = {
         'causes': causes
@@ -63,6 +66,15 @@ def displayCharity(request, cause_id):
         'cause': cause
     }
     return render(request, 'first_app/charity.html', context)
+
+def displayCharity_give(request, cause_id):
+    if request.method == 'POST':
+        x = request.session['cart']
+        x[0]['total'] += float(request.POST['amount'])
+        x.append({'cause': cause_id, 'amount': request.POST['amount'], 'source': request.POST['source']})
+        request.session['cart'] = x
+        print(request.session['cart'])
+    return redirect('/charity/'+cause_id)
 
 def addGroup(request):
     if 'user_id' in request.session:
@@ -98,7 +110,11 @@ def register(request):
     return render(request, 'first_app/register.html')
     
 def displayStatement(request):
-    return render(request, 'first_app/statement.html')
+    context = {
+        'now': datetime.datetime.now(),
+        'user': User.objects.get(id=request.session['user_id'])
+    }
+    return render(request, 'first_app/statement.html', context)
 
 def adminUsers(request):
     users = User.objects.all()

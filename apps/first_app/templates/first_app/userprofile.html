@@ -132,7 +132,7 @@
                                                                     </div></tr>
                                                                 </tbody>
                                                             </table>
-                                                            <form action='/addtocart/{{invitation.group.cause.id}}' method="POST">
+                                                            <form action='/charity/{{invitation.group.cause.id}}/give' method="POST">
                                                                 {% csrf_token %}
                                                                 <div class="form-group">
                                                                     <label for="amount">Amount: $</label>
@@ -287,7 +287,7 @@
                                     <img class="card-img-top" src="{% static "first_app/images/charity_logo_400.jpg" %}" alt="{{wish.name}}">
                                     <div class="card-body">
                                         <h5 class="card-title">{{wish.name}}</h5>
-                                        <form action="/addtocart/{{wish.id}}" method="POST">
+                                        <form action="/charity/{{wish.id}}/give" method="POST">
                                             {% csrf_token %}
                                             $ <input type="text" class="col-md-3" name="amount" value="10">
                                             <input type="submit" class="btn btn-sm shadow rounded btn-primary card-text" value="Give Now">

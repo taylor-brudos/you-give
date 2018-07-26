@@ -26,8 +26,10 @@ urlpatterns = [
     url(r'^updatecause$', views.updateCause),
     url(r'^addcause$', views.addCause),
     url(r'^creategroup$', views.createGroup),  
+    url(r'^addtocart/(?P<id>\d+)$', views.addToCart),  
     url(r'^updategroup/(?P<id>\d+)$', views.updateGroup),  
     url(r'^invite/(?P<id>\d+)$', views.inviteUser),  
     url(r'^acceptinvite/(?P<id>\d+)$', views.acceptInvite),  
     url(r'^declineinvite/(?P<id>\d+)$', views.declineInvite), 
+    url(r'^addtowishlist/(?P<id>\d+)$', views.addToWishList), 
 ]

@@ -18,12 +18,40 @@
     </head>
     <body>
         <div class="container-fluid background p-0">
-            <nav class="navbar navbar-light bg-dark">
-                <a class="navbar-brand" href="/">
-                {% load static %}
-                    <img src="{% static 'first_app/images/globe_trans.png' %}" width="60" height="60" alt="YouGive Logo">
-                </a>
-            </nav>
+                <nav class="navbar navbar-expand navbar-dark bg-dark">
+                    <a class="navbar-brand" href="/explore">
+                    {% load static %}
+                        <img src="{% static 'first_app/images/globe_trans.png' %}" width="60" height="60" alt="YouGive Logo">
+                        YouGive
+                    </a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
+                        </li>
+                        {% if 'user_id' in request.session %}
+                        {% if request.session.user_level == 1 %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">Admin</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">Dashboard</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/checkout">My Cart</a>
+                        </li>
+                        {% if 'user_id' in request.session %}
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="/logout">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="navbar-text text-right">
+                            <a href="/register">Login/Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             <div class="container mt-3">
                 <table class="mx-auto table table-striped table-bordered bg-light">
                 <thead>

@@ -77,18 +77,25 @@
                 {% endif %}
             </ul>
         </nav>
+        {%for message in messages%}
+            {%if 'wishlist' in message.tags%}
+                <p class="alert-success">{{message}}</p>
+            {%endif%}
+        {%endfor%}
         <div class="inline-b">
             <a href="/explore" class="go-back">Go Back</a>
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="gfa logo">
                 <div class="card-body">
-                    <form action="{{cause.id}}/give" method="post">
-                        {% csrf_token %}
-                        <input class="inline-b form-control form-control-lg" type="number" min="1.00" step="1.00" name="amount" value="10.00">
-                        <button type="submit" class="btn btn-success">Give Now</button>
+                    <form action="/{{cause.id}}/give" method="POST">
+                            {% csrf_token %}
+                            <label for="amount">$</label>
+                            <input class="col-sm-3 rounded" type="number" min="1.00" step="1.00" name="amount" value="10">
+                            <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Give Now">
+                            <input type="hidden" name="source" value="charity">
                     </form>
                     {% if 'user_id' in request.session %}
-                    <a href="/charity" class="btn btn-secondary">Add to Wishlist</a>
+                    <a href="/addtowishlist/{{cause.id}}" class="btn btn-secondary">Add to Wishlist</a>
                     {% endif %}
                 </div>
             </div>

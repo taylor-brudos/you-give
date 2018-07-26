@@ -98,7 +98,7 @@
                                                             
                                                         </div>
                                                         <div class="modal-body">
-                                                            <h5>Collected $ {{invitation.group.contribution.sum}} as of today.</h5>
+                                                            <h5>Collected $ {{invitation.group.contributions}} as of today.</h5>
                                                             <div class="form-group">
                                                                 <form action='/invite/{{invitation.group.id}}' method="POST">
                                                                     {%csrf_token%}
@@ -122,13 +122,9 @@
                                                                     </tr>
                                                                     <tr>Contributers: </tr>
                                                                     <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
-                                                                        <p class="text-success">User 1 contributed $ X.XX</p>
-                                                                        <p class="text-success">User 2 contributed $ XX.XX</p>
-                                                                        <p class="text-success">User 3 contributed $ XXX.XX</p>
-                                                                        <p class="text-success">User 4 contributed $ X.XX</p>
-                                                                        <p class="text-success">User 5 contributed $ XXX.XX</p>
-                                                                        <p class="text-success">User 6 contributed $ XX.XX</p>
-                                                                        <p class="text-success">User 7 contributed $ XX.XX</p>
+                                                                        {%for donation in invitation.group.donations.all reversed%}
+                                                                            <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount}}</p>
+                                                                        {%endfor%}
                                                                     </div></tr>
                                                                 </tbody>
                                                             </table>
@@ -139,6 +135,7 @@
                                                                     <input class="col-sm-2 rounded" type="text" name="amount" value="10">
                                                                     <input type="submit" class="btn btn-sm btn-success shadow rounded" value="Contribute">
                                                                     <input type="hidden" name="source" value="group">
+                                                                    <input type="hidden" name="group_id" value="{{invitation.group.id}}">
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -185,13 +182,9 @@
                                                                             </tr>
                                                                             <tr>Contributers: </tr>
                                                                             <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
-                                                                                <p class="text-success">User 1 contributed $ X.XX</p>
-                                                                                <p class="text-success">User 2 contributed $ XX.XX</p>
-                                                                                <p class="text-success">User 3 contributed $ XXX.XX</p>
-                                                                                <p class="text-success">User 4 contributed $ X.XX</p>
-                                                                                <p class="text-success">User 5 contributed $ XXX.XX</p>
-                                                                                <p class="text-success">User 6 contributed $ XX.XX</p>
-                                                                                <p class="text-success">User 7 contributed $ XX.XX</p>
+                                                                                {%for donation in invitation.group.donations.all reversed%}
+                                                                                    <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount}}</p>
+                                                                                {%endfor%}
                                                                             </div></tr>
                                                                         </tbody>
                                                                     </table>
@@ -269,10 +262,10 @@
                         <table class="table table-borderless m-5">
                             <tbody>
                                 <tr>
-                                    <td><h4>Lifetime Giving Amount: </h4></td><td><h4>$ {{user.donations.donation_has_causes.anount}}</h4></td>
+                                    <td><h4>Lifetime Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum}}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td><h4>YTD Giving Amount: </h4></td><td><h4>$ </h4></td>
+                                    <td><h4>YTD Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum}}</h4></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -302,10 +295,10 @@
                         <div class="card-deck m-2">
                             {%for donation in user.donations.all%}
                             <div class="card shadow rounded">
-                                <img class="card-img-top" src="{% static "first_app/images/{{donation.donation_has_causes.cause.title}}.jpg" %}" alt="World Vision">
+                                <img class="card-img-top" src="{% static "first_app/images/charity_logo_400.jpg" %}" alt="World Vision">
                                 <div class="card-body">
-                                <h5 class="card-title">{{donation.donation_has_causes.cause.title}}</h5>
-                                <p class="card-text">You donated $ {{donation.donation_has_causes.amount}} on {{donation.donation_has_causes.created_at}}</p>
+                                <h5 class="card-title">{{donation.cause.name}}</h5>
+                                <p class="card-text">You donated $ {{donation.amount}} on {{donation.created_at}}</p>
                                 </div>
                             </div>
                             {%endfor%}

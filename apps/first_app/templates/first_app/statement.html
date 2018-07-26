@@ -53,35 +53,23 @@
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">#</th>
                 <th scope="col">Cause</th>
                 <th scope="col">Date</th>
-                <th scope="col">Amount</th>
+                <th scope="col">Amount (USD)</th>
                 </tr>
             </thead>
             <tbody>
+                {%for donation in user.donations.all%}
+                    <tr>
+                        <td>{{donation.cause.name}}</td>
+                        <td>{{donation.created_at}}</td>
+                        <td>{{donation.amount}}</td>
+                    </tr>
+                {%endfor%}
                 <tr>
-                <th scope="row">1</th>
-                <td>World Vision</td>
-                <td>1/12/2018</td>
-                <td>$25.00</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Compassion International</td>
-                <td>3/26/2018</td>
-                <td>$100.00</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>International Justice Mission</td>
-                <td>5/30/2018</td>
-                <td>$70.50</td>
-                </tr>
-                <th scope="row"></th>
                 <td class="bold">All Causes</td>
                 <td class="bold">Total in 2018</td>
-                <td class="bold">$195.50</td>
+                <td class="bold">{{user_donation.amount__sum}}</td>
                 </tr>
             </tbody>
         </table>

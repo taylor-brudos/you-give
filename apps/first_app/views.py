@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
+from django.db.models import Sum
 import bcrypt
 import datetime
 
@@ -16,10 +17,12 @@ def index(request):
 
 def userProfile(request):
     if 'user_id' in request.session:
+        user=User.objects.get(id=request.session['user_id'])
         context = {
-            "user":User.objects.get(id=request.session['user_id']),
+            "user":user,
             "all_users":User.objects.all(),
-            "all_causes":Cause.objects.all()
+            "all_causes":Cause.objects.all(),
+            "user_donation":user.donations.aggregate(Sum('amount'))
         }
         return render(request,'first_app/userprofile.html',context)
 
@@ -71,10 +74,14 @@ def displayCharity_give(request, cause_id):
     if request.method == 'POST':
         x = request.session['cart']
         x[0]['total'] += float(request.POST['amount'])
-        x.append({'cause': cause_id, 'amount': request.POST['amount'], 'source': request.POST['source']})
+        if request.POST['source'] == 'group':
+            x.append({'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source'],'group': request.POST['group_id']})
+        else:
+            x.append({'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source']})
         request.session['cart'] = x
         print(request.session['cart'])
     return redirect('/charity/'+cause_id)
+
 def addToWishList(request,id):
     if 'user_id' in request.session:
         wisher = User.objects.get(id=request.session['user_id'])
@@ -85,18 +92,18 @@ def addToWishList(request,id):
     else:
         return redirect('/')
 
-def addToCart(request,id):
-    if 'user_id' in request.session:
-        if request.method=='POST':
-            print("before:",request.session['cart'])
-            cart=request.session['cart']
-            cart.append({"cause":Cause.objects.get(id=id),"amount":request.POST['amount'],"source":request.POST['source']})
-            cart[0]['total']+=request.POST['amount']
-            request.session['cart'] = cart
-            print("after:",request.session['cart'])
-        return redirect('/dashboard')
-    else:
-        return redirect('/')
+# def addToCart(request,id):
+#     if 'user_id' in request.session:
+#         if request.method=='POST':
+#             print("before:",request.session['cart'])
+#             cart=request.session['cart']
+#             cart.append({"cause":Cause.objects.get(id=id),"amount":request.POST['amount'],"source":request.POST['source']})
+#             cart[0]['total']+=request.POST['amount']
+#             request.session['cart'] = cart
+#             print("after:",request.session['cart'])
+#         return redirect('/dashboard')
+#     else:
+#         return redirect('/')
 
 def addGroup(request):
     if 'user_id' in request.session:
@@ -128,13 +135,35 @@ def updateGroup(request,id):
 def checkout(request):
     return render(request, 'first_app/checkout.html')
 
+def processCheckout(request):
+    if "user_id" in request.session:
+        for donation in range(1,len(request.session['cart'])):
+            cause=Cause.objects.get(id=request.session['cart'][donation]['cause_id'])
+            amount=request.session['cart'][donation]['amount']
+            giver=User.objects.get(id=request.session['user_id'])
+            donated = Donation.objects.create(giver=giver,amount=amount,cause=cause)
+            if request.session['cart'][donation]['source'] == 'group':
+                group=Group.objects.get(id=request.session['cart'][donation]['group'])
+                group.contributions+=float(amount)
+                group.save()
+                donated.groups.add(group)
+                print("Source group: ",donated.__dict__)
+            if request.session['cart'][donation]['source'] == 'wishlist':
+                removeWishlist=User.objects.get(id=request.session['user_id']).wished_causes.remove(cause)
+        del request.session['cart']
+        return redirect('/explore')
+    else:
+        return redirect('/')
+
 def register(request):
     return render(request, 'first_app/register.html')
     
 def displayStatement(request):
+    user=User.objects.get(id=request.session['user_id'])
     context = {
         'now': datetime.datetime.now(),
-        'user': User.objects.get(id=request.session['user_id'])
+        'user': user,
+        'user_donation':user.donations.aggregate(Sum('amount'))
     }
     return render(request, 'first_app/statement.html', context)
 
@@ -171,6 +200,9 @@ def registerUser(request):
     if request.method=='POST':
         password_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
         registerUser=User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=password_hash, user_level=0)
+        request.session['user_id']=registerUser.id
+        request.session['first_name']=registerUser.first_name
+        request.session['user_level']=registerUser.user_level
     return redirect('/explore')
 
 def logout(request):

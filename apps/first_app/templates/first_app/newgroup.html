@@ -26,26 +26,26 @@
             </nav>
             <div class="container bg-light p-3 mt-3 w-25 shadow rounded">
                 <h3 class="text-center mb-5">Add a Group!</h3>
-                <form>
+                <form action="/creategroup" method="POST">
+                    {%csrf_token%}
                     <div class="form-group col-md-12">
                         <label for="title">Title:</label>
                         <input type="text" class="form-control" name="title">
                     </div>
                     <div class="form-group col-md-12">
-                        <label for="title">Goal: $</label></td>
+                        <label for="org">Goal: $</label></td>
                         <input type="text" class="form-control col-md-4" name="goal">
                     </div>
                     <div class="form-group col-md-12">
-                        <label for="title">Organization: </label>
+                        <label for="org">Organization: </label>
                         <select class="form-control"name="org">
-                            <option active>World Vision</option>
-                            <option>Org 2</option>
-                            <option>Org 3</option>
-                            <option>Org 4</option>
+                            {%for cause in all_causes%}
+                                <option value="{{cause.id}}">{{cause.name}}</option>
+                            {%endfor%}
                         </select>
                     </div>
                     <div class="form-group col-md-12">
-                        <label for="title">Target date: </label></td>
+                        <label for="targetdate">Target date: </label></td>
                         <input type="date" class="form-control col-md-6" name="target_date">
                     </div>
                     <div class="form-group col-md-12">

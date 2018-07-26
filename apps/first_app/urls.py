@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^user/(?P<id>\d+)',views.userProfile),
+    url(r'^dashboard$',views.userProfile),
     url(r'^explore$', views.explore),
     url(r'^addgroup$', views.addGroup),
     url(r'^checkout$', views.checkout),
@@ -24,4 +24,9 @@ urlpatterns = [
     url(r'^deletecause$', views.deleteCause),
     url(r'^updatecause$', views.updateCause),
     url(r'^addcause$', views.addCause),
+    url(r'^creategroup$', views.createGroup),  
+    url(r'^updategroup/(?P<id>\d+)$', views.updateGroup),  
+    url(r'^invite/(?P<id>\d+)$', views.inviteUser),  
+    url(r'^acceptinvite/(?P<id>\d+)$', views.acceptInvite),  
+    url(r'^declineinvite/(?P<id>\d+)$', views.declineInvite), 
 ]

@@ -13,8 +13,42 @@ def index(request):
     else:
         return render(request,'first_app/index.html')
 
-def userProfile(request,id):
-    return render(request,'first_app/userprofile.html')
+def userProfile(request):
+    if 'user_id' in request.session:
+        context = {
+            "user":User.objects.get(id=request.session['user_id']),
+            "all_users":User.objects.all(),
+            "all_causes":Cause.objects.all()
+        }
+        return render(request,'first_app/userprofile.html',context)
+
+def inviteUser(request,id):
+    if request.method=='POST':
+        if 'user_id' in request.session:
+            group=Group.objects.get(id=id)
+            invitee=User.objects.get(id=request.POST['invite'])
+            newInvite=Invitation.objects.create(is_accepted=False, invitee=invitee, group=group)
+            return redirect('/dashboard')
+        else:
+            return render('/')
+
+def acceptInvite(request,id):
+    if 'user_id' in request.session:
+        invitation=Invitation.objects.get(id=id)
+        invitation.is_accepted=True
+        invitation.save()
+        return redirect('/dashboard')
+    else:
+        return redirect('/')
+
+def declineInvite(request,id):
+    if 'user_id' in request.session:
+        invitation=Invitation.objects.get(id=id)
+        invitation.delete()
+        return redirect('/dashboard')
+    else:
+        return redirect('/')
+
 
 def explore(request):
     causes = Cause.objects.all()
@@ -31,7 +65,31 @@ def displayCharity(request, cause_id):
     return render(request, 'first_app/charity.html', context)
 
 def addGroup(request):
-    return render(request, 'first_app/newgroup.html')
+    if 'user_id' in request.session:
+        context={
+            "all_causes":Cause.objects.all()
+        }
+        return render(request, 'first_app/newgroup.html',context)
+
+def createGroup(request):
+    if 'user_id' in request.session:
+        createGroup=Group.objects.create(title=request.POST['title'], goal=request.POST['goal'],contributions=0, target_date=request.POST['target_date'],organizer=User.objects.get(id=request.session['user_id']),cause=Cause.objects.get(id=request.POST['org']))
+        invitation=Invitation.objects.create(is_accepted=True, invitee=User.objects.get(id=request.session['user_id']),group=Group.objects.get(id=createGroup.id))
+    return redirect('/dashboard')
+
+def updateGroup(request,id):
+    if request.method=='POST':
+        if 'user_id' in request.session:
+            group=Group.objects.get(id=id)
+            group.goal=request.POST['goal']
+            group.cause=Cause.objects.get(id=request.POST['org'])
+            if len(request.POST['target_date'])>1:
+                group.target_date=request.POST['target_date']
+            group.save()
+            return redirect('/dashboard')
+        else:
+            return redirect('/')
+
 
 def checkout(request):
     return render(request, 'first_app/checkout.html')

@@ -22,4 +22,9 @@ urlpatterns = [
     url(r'^updateuser$', views.updateUser),
     url(r'^adduser$', views.addUser),
     url(r'^addcause$', views.addCause),
+    url(r'^creategroup$', views.createGroup),  
+    url(r'^updategroup/(?P<id>\d+)$', views.updateGroup),  
+    url(r'^invite/(?P<id>\d+)$', views.inviteUser),  
+    url(r'^acceptinvite/(?P<id>\d+)$', views.acceptInvite),  
+    url(r'^declineinvite/(?P<id>\d+)$', views.declineInvite), 
 ]

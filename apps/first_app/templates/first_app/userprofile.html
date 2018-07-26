@@ -54,6 +54,7 @@
             </nav>
             <div class="row ml-5 mr-3 mt-3">
                 <div class="col-md-3 mr-5">
+                    
                     <div class="ml-5" style="width: 270px; height:270px;">
                         <img class="w-100 ml-3 border border-dark rounded-circle" src="{% static "first_app/images/placeholder-profile.png" %}" alt="User Profile"/>
                     </div>
@@ -66,6 +67,11 @@
                         <i class="material-icons">bookmark_border</i>
                         <i class="material-icons">bookmark_border</i>
                     </div>
+                    <!-- {%for invitedUser in all_users.all%} -->
+                    <!-- {%if user not in invitation.invitee.all%} -->
+                    <!-- <p>{{all_users}}</p> -->
+                    <!-- {%endif%} -->
+                    <!-- {%endfor%} -->
                     <div class="bg-light border border-1 shadow rounded p-3 mt-5">
                         <h4 class="text-center m-3">Groups</h4>
                         <nav>
@@ -95,16 +101,14 @@
                                                             <h5>Collected $XX.XX as of today.</h5>
                                                             <div class="form-group">
                                                                 <form action='/invite/{{invitation.group.id}}' method="POST">
+                                                                    {%csrf_token%}
                                                                     <label for="invite">Invite other YouGive members: </label>
-                                                                    <select class="form-control col-sm-3" name="invite">
+                                                                    <select class="form-control col-md-6" id="invite" name="invite">
                                                                         {%for user in all_users%}
-                                                                        {%if user not in invitation.invitee.all%}
-                                                                        <option>{{user.first_name}}</option>
-                                                                        {%endif%}
+                                                                            <option value="{{user.id}}">{{user.first_name}}</option>
                                                                         {%endfor%}
                                                                     </select>
-                                                                    <input type="hidden" name="invitee_id" value="{{user.id}}">
-                                                                    <input type="submit" class="btn btn-sm btn-primary mt-2 shadow rounded">Invite</a>
+                                                                    <input type="submit" class="btn btn-sm btn-primary mt-2 shadow rounded" value="Invite">
                                                                 </form>
                                                             </div>
                                                             <table class="table table-borderless">
@@ -147,58 +151,115 @@
                                     {%endfor%}
                                 </ul>
                             </div>
-                            <div class="tab-pane fade" id="nav-invites" role="tabpanel" aria-labelledby="nav-invites-tab">Placeholder for accepting or declining group invitations</div>
+                            <div class="tab-pane fade" id="nav-invites" role="tabpanel" aria-labelledby="nav-invites-tab">
+                                    <ul class="list-group list-group-flush">
+                                            {%for invitation in user.invitations.all%}
+                                                {%if not invitation.is_accepted%}
+                                                    <li class="list-group-item"><a data-toggle="modal" data-target="#inviteModal{{invitation.id}}">{{invitation.group.title}}</a></li>
+                                                    <div class="modal fade" id="inviteModal{{invitation.id}}" role="dialog">
+                                                            <div class="modal-dialog">
+                                                            
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">{{invitation.group.title}}</h4>
+                                                                    
+                                                                    
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h5>Collected $XX.XX as of today.</h5>
+                                                                    <div class="form-group">
+                                                                        <a href = '/acceptinvite/{{invitation.id}}' class="btn btn-success shadow rounded">Accept</a>
+                                                                        <a href = '/declineinvite/{{invitation.id}}' class="btn btn-danger shadow rounded">Decline</a>
+                                                                    </div>
+                                                                    <table class="table table-borderless">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Goal: ${{invitation.group.goal}}</td>
+                                                                                <td>Organization: {{invitation.group.cause.name}}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Target date: {{invitation.group.target_date}}</td>
+                                                                            </tr>
+                                                                            <tr>Contributers: </tr>
+                                                                            <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
+                                                                                <p class="text-success">User 1 contributed $ X.XX</p>
+                                                                                <p class="text-success">User 2 contributed $ XX.XX</p>
+                                                                                <p class="text-success">User 3 contributed $ XXX.XX</p>
+                                                                                <p class="text-success">User 4 contributed $ X.XX</p>
+                                                                                <p class="text-success">User 5 contributed $ XXX.XX</p>
+                                                                                <p class="text-success">User 6 contributed $ XX.XX</p>
+                                                                                <p class="text-success">User 7 contributed $ XX.XX</p>
+                                                                            </div></tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                {%endif%}
+                                            {%endfor%}
+                                        </ul>
+                            </div>
                             <div class="tab-pane fade" id="nav-manage" role="tabpanel" aria-labelledby="nav-manage-tab">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupEditModal">Contribute to World Vision!</a></li>
-                                    <li class="list-group-item"><a data-toggle="modal" data-target="#groupEditModal">Group 2 Placeholder</a></li>
+                                    {%for group in user.groups.all%}
+                                        <li class="list-group-item"><a data-toggle="modal" data-target="#groupEditModal{{group.id}}">{{group.title}}</a></li>
+                                        <div class="modal fade" id="groupEditModal{{group.id}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">{{group.title}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action='/updategroup/{{group.id}}' method="POST">
+                                                        {%csrf_token%}
+                                                        <table class="table table-borderless">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Goal (USD):</td><td><input type="text" class="col-md-5 form-control" name="goal" value="{{group.goal}}"></td>
+                                                                </tr>
+                                                                    <td>Organization: </td>
+                                                                    <td>    <select class="form-control" name="org">
+                                                                            {%for organization in all_causes%}
+                                                                                <option value="{{organization.id}}">{{organization.name}}</option>
+                                                                            {%endfor%}
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Current Target date: </td><td>{{group.target_date}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>New Target date: </td><td><input class="form-control" name="target_date" type="date" placeholder="{{group.target_date}}"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                            <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Update">
+                                                        </form>
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                    {%endfor%}
                                 </ul>
                                 <a href="/addgroup" class="btn btn-primary mt-2">Create a group</a>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="modal fade" id="groupEditModal" role="dialog">
-                        <div class="modal-dialog">
-                        
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Contribute to World Vision!</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                <table class="table table-borderless">
-                                    <tbody>
-                                        <tr>
-                                            <td>Goal (USD):</td><td><input type="text" class="col-md-5 form-control" name="goal" value="XXX.XX"></td>
-                                        </tr>
-                                        <!-- <tr>
-                                            <td>Organization: </td>
-                                            <td>    <select class="form-control" name="org">
-                                                    <option active>World Vision</option>
-                                                    <option>Org 2</option>
-                                                    <option>Org 3</option>
-                                                    <option>Org 4</option>
-                                                </select>
-                                            </td>
-                                        </tr> -->
-                                        <tr>
-                                            <td>Target date: </td><td><input class="form-control" type="date" value="XX-XX-XXXX"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                    <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Update">
-                                </form>
-                                
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                            </div>
-                            
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="col-md-8">
                     <div class="border border-1 shadow rounded bg-light p-3">

@@ -1,35 +1,29 @@
-Explore ~ Taylor/Tenju
+Explore ~ Taylor
     - make it look productiony
-    - ***add cart session logic
-    - ***pass through charities
+    - two divs that separate sidebar and main content (inline-blocks)
+    - clicking on featured charity image, remove links
+    - side bar bg-light 
 Charity page ~ Taylor
-    - ***add textbox for amount to give
-    - ***clicking give now should add to cart
-    - ***wishlist button only if user signed in
-    - ***pass through charity data to page based on charity id
     - add pop up after give button hit
-***Admin ~ Taylor
-    - ***use containers for tables
-    - ***CRUD functionalities
-Statement ~ Taylor
-    - pass through data to statement (still need to do YTD contributions)
-Dashboard ~ Tenju
-    - ***groups
-    - wishlist 
-    - portfolio 
-Checkout ~ Tenju
-    - pass through session data
-    - submitting order goes to database if order is successful
+Dashboard ~ Taylor
+    - wishlist - if wishlist is empty, add something there.... also use inline divs with fixed width
+    - portfolio - use inline divs with fixed width
+Checkout ~ Taylor
+    - Thank you page after checking out (it's own html page) 
+    - add icon for share on facebook
+
+Admin ~ Tenju
+    - image upload for creating a charity
+Register html - Tenju
+    - add button that links to index for "already have an account"
+    - redirect to register.html to continue if not logged in
 
 Other to-do:
-Ajax
-Change "Charity" to "Cause" throughout
-Validations (login, registration, add/edit user/cause)
-Navbar 
-image db storage
-db github syncing
-Stripe
-deploy
+Ajax ~ both
+Validations (login, registration, add/edit user/cause) ~ both
+deploy ~ both
+Stripe ~ both
+
 
 
 Admin login:

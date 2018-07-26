@@ -98,7 +98,7 @@
                                                             
                                                         </div>
                                                         <div class="modal-body">
-                                                            <h5>Collected $XX.XX as of today.</h5>
+                                                            <h5>Collected $ {{invitation.group.contribution.sum}} as of today.</h5>
                                                             <div class="form-group">
                                                                 <form action='/invite/{{invitation.group.id}}' method="POST">
                                                                     {%csrf_token%}
@@ -132,11 +132,13 @@
                                                                     </div></tr>
                                                                 </tbody>
                                                             </table>
-                                                            <form>
+                                                            <form action='/addtocart/{{invitation.group.cause.id}}' method="POST">
+                                                                {% csrf_token %}
                                                                 <div class="form-group">
                                                                     <label for="amount">Amount: $</label>
                                                                     <input class="col-sm-2 rounded" type="text" name="amount" value="10">
                                                                     <input type="submit" class="btn btn-sm btn-success shadow rounded" value="Contribute">
+                                                                    <input type="hidden" name="source" value="group">
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -167,7 +169,7 @@
                                                                     
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <h5>Collected $XX.XX as of today.</h5>
+                                                                    <h5>Collected $ {{invitation.group.contributions}} as of today.</h5>
                                                                     <div class="form-group">
                                                                         <a href = '/acceptinvite/{{invitation.id}}' class="btn btn-success shadow rounded">Accept</a>
                                                                         <a href = '/declineinvite/{{invitation.id}}' class="btn btn-danger shadow rounded">Decline</a>
@@ -254,7 +256,7 @@
                                             </div>
                                     {%endfor%}
                                 </ul>
-                                <a href="/addgroup" class="btn btn-primary mt-2">Create a group</a>
+                                <a href="/addgroup" class="btn btn-primary mt-2 shadow rounded">Create a group</a>
                             </div>
                         </div>
                     </div>
@@ -270,7 +272,7 @@
                                     <td><h4>Lifetime Giving Amount: </h4></td><td><h4>$ {{user.donations.donation_has_causes.anount}}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td><h4>YTD Giving Amount: </h4></td><td><h4>$ XXX.XX</h4></td>
+                                    <td><h4>YTD Giving Amount: </h4></td><td><h4>$ </h4></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -279,15 +281,17 @@
                     
                     <h3 class="text-center mt-5">Your Wishlist</h3>
                     <div style="height:280px;overflow-y: scroll;">
-                        <div class="card-deck m-2">
-                                {%for wish in user.wishes_causes%}
-                                <div class="card shadow rounded">
-                                    <img class="card-img-top" src="{% static "first_app/images/{{wish.name}}.png" %}" alt="{{wish.name}}">
+                        <div class="card-deck m-2" >
+                                {%for wish in user.wished_causes.all%}
+                                <div class="card shadow rounded" style="width: 400px;">
+                                    <img class="card-img-top" src="{% static "first_app/images/charity_logo_400.jpg" %}" alt="{{wish.name}}">
                                     <div class="card-body">
                                         <h5 class="card-title">{{wish.name}}</h5>
-                                        <form action="/addtocart" method="POST">
-                                            $ <input type="text" class="col-md-3" value="10">
-                                            <a href="/checkout" class="btn btn-primary card-text">Give Now</a>
+                                        <form action="/addtocart/{{wish.id}}" method="POST">
+                                            {% csrf_token %}
+                                            $ <input type="text" class="col-md-3" name="amount" value="10">
+                                            <input type="submit" class="btn btn-sm shadow rounded btn-primary card-text" value="Give Now">
+                                            <input type="hidden" name="source" value="wishlist">
                                         </form>
                                     </div>
                                 </div>

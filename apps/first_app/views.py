@@ -17,10 +17,18 @@ def userProfile(request,id):
     return render(request,'first_app/userprofile.html')
 
 def explore(request):
-    return render(request, 'first_app/explore.html')
+    causes = Cause.objects.all()
+    context = {
+        'causes': causes
+    }
+    return render(request, 'first_app/explore.html', context)
 
-def displayCharity(request):
-    return render(request, 'first_app/charity.html')
+def displayCharity(request, cause_id):
+    cause = Cause.objects.get(id=cause_id)
+    context = {
+        'cause': cause
+    }
+    return render(request, 'first_app/charity.html', context)
 
 def addGroup(request):
     return render(request, 'first_app/newgroup.html')
@@ -42,7 +50,11 @@ def adminUsers(request):
     return render(request, 'first_app/admin_users.html', context)
 
 def adminCauses(request):
-    return render(request, 'first_app/admin_causes.html')
+    causes = Cause.objects.all()
+    context = {
+        'causes': causes
+    }
+    return render(request, 'first_app/admin_causes.html', context)
 
 def login(request):
     if request.method == "POST":
@@ -76,12 +88,39 @@ def deleteUser(request):
     return redirect('/admin/users')
 
 def updateUser(request):
-    return redirect('/admin/users')
+    if request.method=='POST':
+        this_user = User.objects.get(id=request.POST['user_id'])
+        this_user.first_name = request.POST['first_name']
+        this_user.last_name = request.POST['last_name']
+        this_user.email = request.POST['email']
+        this_user.user_level = request.POST['user_level']
+        this_user.save()
+        return redirect('/admin/users')
 
 def addUser(request):
+    if request.method=='POST':
+        pw_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
+        new_user = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=pw_hash, user_level=request.POST['user_level'])
     return redirect('/admin/users')
+
+def deleteCause(request):
+    if request.method == 'POST':
+        this_cause = Cause.objects.get(id=request.POST['cause_id'])
+        this_cause.delete()
+    return redirect('/admin/causes')
+
+def updateCause(request):
+    if request.method == 'POST':
+        this_cause = Cause.objects.get(id=request.POST['cause_id'])
+        this_cause.name = request.POST['name']
+        this_cause.ein = request.POST['ein']
+        this_cause.mission_stmt = request.POST['mission']
+        this_cause.desc = request.POST['desc']
+        this_cause.revenue_id = request.POST['revenue_id']
+        this_cause.save()
+        return redirect('/admin/causes')
 
 def addCause(request):
     if request.method=='POST':
-        new_cause = Cause.objects.create(name=request.POST['name'], mission_stmt=request.POST['mission'], desc=request.POST['desc'], ein=request.POST['ein'],revenue=Revenue.objects.get(id=1), admin=User.objects.get(id=request.session['user_id']))
+        new_cause = Cause.objects.create(name=request.POST['name'], mission_stmt=request.POST['mission'], desc=request.POST['desc'], ein=request.POST['ein'],revenue=Revenue.objects.get(id=request.POST['revenue_id']), admin=User.objects.get(id=request.session['user_id']))
     return redirect('/admin/causes')

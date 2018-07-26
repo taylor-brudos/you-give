@@ -145,30 +145,16 @@
                 <a class='green' href=''>...show all</a>
             </div>
         </div>
+            {% for cause in causes %}
             <div class="inline-b card margin shadow rounded" style="width: 18rem;">
-                <img class="card-img-top" src="{% static 'first_app/images/gfa-logo.jpg' %}" alt="gfa logo">
+                <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="charity logo">
                 <div class="card-body">
-                    <h5 class="card-title">Gospel for Asia</h5>
-                    <p class="card-text">Gospel for Asia's mission statement.</p>
-                    <a href="/charity" class="btn btn-primary">View</a>
+                    <h5 class="card-title">{{cause.name}}</h5>
+                    <p class="card-text">{{cause.mission_stmt}}</p>
+                    <a href="/charity/{{cause.id}}" class="btn btn-primary">View</a>
                 </div>
             </div>
-            <div class="inline-b card margin shadow rounded" style="width: 18rem;">
-                <img class="card-img-top" src="{% static 'first_app/images/gfa-logo.jpg' %}" alt="gfa logo">
-                <div class="card-body">
-                    <h5 class="card-title">Gospel for Asia</h5>
-                    <p class="card-text">Gospel for Asia's mission statement.</p>
-                    <a href="/charity" class="btn btn-primary">View</a>
-                </div>
-            </div>
-            <div class="inline-b card margin shadow rounded" style="width: 18rem;">
-                <img class="card-img-top" src="{% static 'first_app/images/gfa-logo.jpg' %}" alt="gfa logo">
-                <div class="card-body">
-                    <h5 class="card-title">Gospel for Asia</h5>
-                    <p class="card-text">Gospel for Asia's mission statement.</p>
-                    <a href="/charity" class="btn btn-primary">View</a>
-                </div>
-            </div>
+            {% endfor %}
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>

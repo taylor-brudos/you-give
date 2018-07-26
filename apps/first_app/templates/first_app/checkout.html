@@ -17,7 +17,7 @@
         <title>YouGive | Profile</title>
     </head>
     <body>
-        <div class="container-fluid background p-0">
+        <div class="container-fluid background p-0" style="min-height: 990px">
                 <nav class="navbar navbar-expand navbar-dark bg-dark">
                     <a class="navbar-brand" href="/explore">
                     {% load static %}
@@ -56,19 +56,28 @@
                 <table class="mx-auto table table-striped table-bordered bg-light">
                 <thead>
                     <tr class="text-center">
-                        <th>Charity Name</th>
-                        <th>Amount</th>
+                        <th>Causes</th>
+                        <th>Amount (USD)</th>
                     </tr>
                 </thead>
                 <tbody class="text-right">
-                    <tr>
-                        <td class="text-left">World Vision</td>
-                        <td>XX.XX</td>
-                    </tr>
+                    {%for donation in request.session.cart%}
+                        {%if not 'total' in donation %}
+                        <tr>
+                            <td class="text-left">{{donation.cause_name}}</td>
+                            <td>{{donation.amount}}</td>
+                        </tr>
+                        {%endif%}
+                    {%endfor%}
                 </tbody>
             </table>
-            <p class="text-right">Total: <span class="font-weight-bold">$XX.XX</span></p>
-            <div class="row">
+            {%for donation in request.session.cart%}
+                {%if 'total' in donation %}
+                    <p class="text-right">Total: <span class="font-weight-bold">${{donation.total}}</span></p>
+                {%endif%}
+            {%endfor%}
+            <a href="/processcheckout" class="btn btn-success shadow rounded">Checkout</a>    
+            <!-- <div class="row">
                 <div class="col-md-8 mx-auto bg-light shadow rounded p-3 mb-3">
                         <h5 class="mb-4">Billing Information</h5>
                         <form>
@@ -136,7 +145,7 @@
                             
                         </form>
                 </div>
-            </div>
+            </div> -->
         </div>
         </div>
     </body>

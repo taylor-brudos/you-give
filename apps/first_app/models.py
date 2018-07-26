@@ -62,10 +62,13 @@ class Donation(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     giver = models.ForeignKey(User, related_name="donations")
-
-class Donation_has_cause(models.Model):
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
+    groups = models.ManyToManyField(Group,related_name="donations")
     amount = models.FloatField()
     cause = models.ForeignKey(Cause, related_name="donation_has_causes")
-    donation = models.ForeignKey(Donation, related_name="donation_has_causes")
+
+# class Donation_has_cause(models.Model):
+#     created_at = models.DateTimeField(auto_now_add = True)
+#     updated_at = models.DateTimeField(auto_now = True)
+#     amount = models.FloatField()
+#     cause = models.ForeignKey(Cause, related_name="donation_has_causes")
+#     donation = models.ForeignKey(Donation, related_name="donation_has_causes")

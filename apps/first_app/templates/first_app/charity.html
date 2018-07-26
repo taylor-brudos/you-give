@@ -87,7 +87,7 @@
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="gfa logo">
                 <div class="card-body">
-                    <form action="/{{cause.id}}/give" method="POST">
+                    <form action="/charity/{{cause.id}}/give" method="POST">
                             {% csrf_token %}
                             <label for="amount">$</label>
                             <input class="col-sm-3 rounded" type="number" min="1.00" step="1.00" name="amount" value="10">

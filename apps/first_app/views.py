@@ -174,6 +174,7 @@ def processCheckout(request):
         del request.session['cart']
         return redirect('/thankyou')
     else:
+        messages.success(request,"Redirected from checkout")
         request.session['pageSource']="checkout"
         return redirect('/register')
 

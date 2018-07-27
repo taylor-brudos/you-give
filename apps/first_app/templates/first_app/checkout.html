@@ -66,7 +66,7 @@
                         {%if not 'total' in donation %}
                         <tr>
                             <td class="text-left">{{donation.cause_name}}</td>
-                            <td>{{donation.amount}}</td>
+                            <td>{{donation.amount|floatformat:2}}</td>
                             <td><a href="/removeitem/{{donation.item_id}}">remove</td>
                         </tr>
                         {%endif%}
@@ -75,7 +75,7 @@
             </table>
             {%for donation in request.session.cart%}
                 {%if 'total' in donation %}
-                    <p class="text-right">Total: <span class="font-weight-bold">${{donation.total}}</span></p>
+                    <p class="text-right">Total: <span class="font-weight-bold">${{donation.total|floatformat:2}}</span></p>
                 {%endif%}
             {%endfor%}
             <a href="/processcheckout" class="btn btn-success shadow rounded">Checkout</a>    

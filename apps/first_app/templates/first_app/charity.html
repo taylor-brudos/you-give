@@ -122,7 +122,7 @@
             <div style="height:350px;overflow-y: scroll;">
                 {% for cause in causes %}
                 <div class="card shadow rounded cardstyle">
-                    <img class="card-img-top" src="{% static "first_app/images/charity_logo_400.jpg" %}" alt="{{cause.name}}">
+                    <img class="card-img-top" src="{% static 'first_app/upload/'%}{{cause.logo_img}}" alt="{{cause.name}}">
                     <div class="card-body">
                         <h5 class="card-title">{{cause.name}}</h5>
                         <a href="/charity/{{cause.id}}" class="btn btn-primary">View</a>

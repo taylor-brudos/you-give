@@ -46,7 +46,7 @@
         <p class="bold">Donor: {{user.first_name}} {{user.last_name}}</p>
         <p class="bold">Date: {{now | date:"SHORT_DATE_FORMAT"}}</p>
         <br>
-        <p>This statement contains a record of voluntary contributions to YouGive made by {{user.first_name}} {{user.last_name}} during the {{now | date:"Y"}} year.  No goods or services were provided by YouGive in return for these contributions. All contributions listed below are fully tax-deductible.  Please consult your tax advisor for further details.</p>
+        <p>This statement contains a record of voluntary contributions to YouGive made by {{user.first_name}} {{user.last_name}} during the  year.  No goods or services were provided by YouGive in return for these contributions. All contributions listed below are fully tax-deductible.  Please consult your tax advisor for further details.</p>
         <p>Thank you for your generous gifts!</p>
         <p>Sincerely,</p>
         <p>YouGive Team</p>
@@ -63,13 +63,13 @@
                     <tr>
                         <td>{{donation.cause.name}}</td>
                         <td>{{donation.created_at}}</td>
-                        <td>{{donation.amount}}</td>
+                        <td>{{donation.amount|floatformat:2}}</td>
                     </tr>
                 {%endfor%}
                 <tr>
                 <td class="bold">All Causes</td>
-                <td class="bold">Total in 2018</td>
-                <td class="bold">{{user_donation.amount__sum}}</td>
+                <td class="bold">Total in {{now | date:"Y"}}</td>
+                <td class="bold">{{user_donation.amount__sum|floatformat:2}}</td>
                 </tr>
             </tbody>
         </table>

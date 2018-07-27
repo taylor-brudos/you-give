@@ -58,6 +58,7 @@
                     <tr class="text-center">
                         <th>Causes</th>
                         <th>Amount (USD)</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody class="text-right">
@@ -66,6 +67,7 @@
                         <tr>
                             <td class="text-left">{{donation.cause_name}}</td>
                             <td>{{donation.amount}}</td>
+                            <td><a href="/removeitem/{{donation.item_id}}">remove</td>
                         </tr>
                         {%endif%}
                     {%endfor%}

@@ -76,9 +76,31 @@
                 <div class="col-md-3 mr-5">
                     
                     <div class="ml-5" style="width: 270px; height:270px;">
-                        <img class="w-100 ml-3 border border-dark rounded-circle" src="{% static "first_app/images/placeholder-profile.png" %}" alt="User Profile"/>
+                        <img class="w-100 ml-3 border border-dark shadow rounded-circle" src="{% static 'first_app/upload/'%}{{user.profile_pic}}" alt="User Profile"/>
                     </div>
-                    <h5 class="text-center m-0">{{user.first_name}} {{user.last_name}}<a href="#"><i class="material-icons md-12">add_a_photo</i></a></h5>
+                    <h5 class="text-center m-0">{{user.first_name}} {{user.last_name}}<a data-toggle="modal" data-target="#img_upload"><i class="material-icons md-12">add_a_photo</i></a></h5>
+                    <div class="modal fade" id="img_upload" role="dialog">
+                            <div class="modal-dialog">
+                            
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Upload profile picture</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/uploadprofilepic" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <input type="file" name="file">
+                                        <input class="btn btn-primary mt-2 shadow rounded" type="submit" value="Upload File">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
                     <h4 class="text-center m-3">Badges</h4>
                     <div class="text-center">
                         <i class="material-icons">bookmark</i>
@@ -296,7 +318,7 @@
                         <!-- <div class="card-deck m-2" > -->
                             {%for wish in user.wished_causes.all%}
                             <div class="card shadow rounded cardstyle">
-                                <img class="card-img-top" src="{% static "first_app/images/charity_logo_400.jpg" %}" alt="{{wish.name}}">
+                                <img class="card-img-top" src="{% static 'first_app/upload/'%}{{wish.logo_img}}" alt="{{wish.name}}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{wish.name}}</h5>
                                     <form action="/charity/{{wish.id}}/give" method="POST">
@@ -315,7 +337,7 @@
                         <!-- <div class="card-deck m-2"> -->
                             {%for donation in user.donations.all%}
                             <div class="card shadow rounded cardstyle-2">
-                                <img class="card-img-top" src="{% static "first_app/images/charity_logo_400.jpg" %}" alt="World Vision">
+                                <img class="card-img-top" src="{% static 'first_app/upload/'%}{{donation.cause.logo_img}}" alt="World Vision">
                                 <div class="card-body">
                                 <h5 class="card-title">{{donation.cause.name}}</h5>
                                 <p class="card-text">You donated $ {{donation.amount}} on {{donation.created_at}}</p>

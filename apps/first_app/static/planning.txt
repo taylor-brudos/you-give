@@ -19,8 +19,8 @@ Checkout ~ Taylor
 Admin ~ Tenju
     - image upload for creating a charity
 Register html - Tenju
-    - add button that links to index for "already have an account"
-    - redirect to register.html to continue if not logged in
+    - add button that links to index for "already have an account" ******************
+    - redirect to register.html to continue if not logged in *********************
 
 Other to-do:
 Super admin

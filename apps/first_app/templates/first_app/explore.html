@@ -142,7 +142,7 @@
         <div class="inline-b">
             {% for cause in causes %}
             <div class="inline-b card margin shadow rounded" style="width: 18rem;">
-                <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="charity logo">
+                <img class="card-img-top" src="{% static 'first_app/upload/'%}{{cause.logo_img}}" alt="charity logo">
                 <div class="card-body">
                     <h5 class="card-title">{{cause.name}}</h5>
                     <p class="card-text">{{cause.mission_stmt}}</p>

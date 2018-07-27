@@ -28,6 +28,7 @@ class User(models.Model):
     user_level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    profile_pic = models.TextField()
     objects=UserManager()
 
 class Cause(models.Model):
@@ -35,6 +36,7 @@ class Cause(models.Model):
     mission_stmt = models.TextField()
     desc = models.TextField()
     ein = models.IntegerField()
+    logo_img=models.TextField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     admin = models.ForeignKey(User, related_name="causes")

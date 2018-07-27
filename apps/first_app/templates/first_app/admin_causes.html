@@ -99,7 +99,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/addcause" method="post">
+                    <form action="/addcause" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="exampleInputEmail1">Name:</label>
@@ -108,6 +108,10 @@
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Mission Statement:</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="mission" placeholder="Please enter the mission statement"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="file">Logo:</label>
+                            <input type="file" name="file">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Description:</label>

@@ -1,16 +1,20 @@
 Explore ~ Taylor
-    - make it look productiony
-    - two divs that separate sidebar and main content (inline-blocks)
-    - clicking on featured charity image, remove links
-    - side bar bg-light 
+    - ***make it look productiony
+    - ***two divs that separate sidebar and main content (inline-blocks)
+    - ***clicking on featured charity image, remove links
 Charity page ~ Taylor
-    - add pop up after give button hit
+    - ***add pop up after give button hit
+    - ***pass through actual data for similar causes
+    - ***add in the mission statement (and revenue level)
 Dashboard ~ Taylor
-    - wishlist - if wishlist is empty, add something there.... also use inline divs with fixed width
-    - portfolio - use inline divs with fixed width
+    - ***wishlist - use inline divs with fixed width
+    - ***portfolio - use inline divs with fixed width
+    - flash message "added to cart" when adding via group
+    - ***add in line of code to thaknyou view to reset cart
+    - redirect to dashboard after adding to cart from dashboard
 Checkout ~ Taylor
-    - Thank you page after checking out (it's own html page) 
-    - add icon for share on facebook
+    - ***Thank you page after checking out (it's own html page) 
+    - ***add icon for share on facebook
 
 Admin ~ Tenju
     - image upload for creating a charity
@@ -19,9 +23,14 @@ Register html - Tenju
     - redirect to register.html to continue if not logged in
 
 Other to-do:
+Super admin
+only pass through the first five causes, on not itself, into charity page similar causes section
 Ajax ~ both
 Validations (login, registration, add/edit user/cause) ~ both
+delete buttons for wishlist and cart ~both
 deploy ~ both
+fill with data for presentation purposes
+if wishlist/portfolio is empty, add something there 
 Stripe ~ both
 
 

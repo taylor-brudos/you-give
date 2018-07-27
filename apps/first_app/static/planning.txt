@@ -5,7 +5,7 @@ fill with data for presentation purposes
 (Stripe ~ both)
 
 Tenju:
-Add "remove" button for wishlist items
+Add "remove" button for wishlist items  --> done
 Facebook share
 
 Taylor:

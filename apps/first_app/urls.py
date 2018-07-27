@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'^removeitem/(?P<id>\d+)$', views.removeItem), 
     url(r'^uploadprofilepic$', views.uploadProfilePic), 
     url(r'^addtowishlist/(?P<id>\d+)$', views.addToWishList),
+    url(r'^removewishlist/(?P<id>\d+)$', views.removeWishList),
     url(r'^thankyou$', views.thankyou),
 ]

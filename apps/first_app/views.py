@@ -104,6 +104,13 @@ def addToWishList(request,id):
     else:
         return redirect('/')
 
+def removeWishList(request,id):
+    if 'user_id' in request.session:
+        wisher = User.objects.get(id=request.session['user_id'])
+        cause = Cause.objects.get(id=id)
+        removeWishList=cause.wishers.remove(wisher)
+        return redirect('/dashboard')
+
 # def addToCart(request,id):
 #     if 'user_id' in request.session:
 #         if request.method=='POST':

@@ -14,6 +14,28 @@ class UserManager(models.Manager):
         elif not bcrypt.checkpw(postData['password'].encode(), user.values()[0]['password'].encode()):
             errors['failedAuth']="Invalid login!"
         return errors
+    def registration_validator(self,postData):
+        errors={}
+        user = User.objects.filter(email=postData['email'])
+        if len(user) > 0:
+            errors['duplicate'] = 'Email already taken'
+        if len(postData['first_name']) < 2:
+            errors['first_name'] = 'First name should be at least 2 characters'
+        elif str.isalpha(postData['first_name']) == False:
+            errors['first_name'] = 'First name must only be letters'
+        if len(postData['last_name']) < 2:
+            errors['last_name'] = 'Last name should be at least 2 characters'
+        elif str.isalpha(postData['last_name']) == False:
+            errors['last_name'] = 'Last name must only be letters'
+        if len(postData['email']) < 1:
+            errors['email'] = 'Email is required'
+        elif not EMAIL_REGEX.match(postData['email']):
+            errors['email'] = 'Email is not valid'
+        if len(postData['password']) < 8:
+            errors['password'] = 'Password must be at least 8 characters'
+        elif postData['password'] != postData['confirm_pw']:
+            errors['confirm_pw'] = 'Passwords must match'
+        return errors
 
 class Revenue(models.Model):
     revenue = models.CharField(max_length=255)

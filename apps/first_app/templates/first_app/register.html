@@ -13,6 +13,11 @@
             .background {
                 background: linear-gradient(to bottom right, #0970C0, #00AD9D)
             }
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0 0 5 0;
+            }
         </style>
         <title>YouGive | Sign up</title>
     </head>
@@ -55,44 +60,53 @@
             <div class="container mt-3">
             <div class="row">
                 <div class="col-md-8 mx-auto bg-light shadow rounded p-3 mb-3">
-                        <h5 class="mb-4">Sign up to join the YouGive movement!</h5>
-                        <form action="/registeruser" method="POST">
-                            {%csrf_token%}
-                            <div class="form-group row">
-                            <label for="first_name" class="col-md-4 col-form-label">First Name:</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="first_name" name="first_name">
-                            </div>
-                            </div>
-                            <div class="form-group row">
-                            <label for="last_name" class="col-sm-4 col-form-label">Last Name:</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="last_name" name="last_name">
-                            </div>
-                            </div>
-                            <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label">Email:</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="email" name="email">
-                            </div>
-                            </div>
-                            <div class="form-group row">
-                            <label for="password" class="col-sm-4 col-form-label">Password:</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control" id="password" name="password">
-                            </div>
-                            </div>
-                            <div class="form-group row">
-                            <label for="confirm_password" class="col-sm-4 col-form-label">Confirm Password:</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control" id="confirm_password" name="confirm_password">
-                            </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" class="form-control col-md-2 mt-3 btn btn-primary" value="Submit">
-                            </div>
-                        </form>
-                        <p class="text-muted text-center">Already have an account? <a href='/' >Log In</a></p>
+                    <h5 class="mb-4">Sign up to join the YouGive movement!</h5>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        {% if 'register' in message.tags %}
+                        <li class="text-danger">{{ message }}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <form action="/registeruser" method="POST">
+                        {%csrf_token%}
+                        <div class="form-group row">
+                        <label for="first_name" class="col-md-4 col-form-label">First Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="first_name" name="first_name">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                        <label for="last_name" class="col-sm-4 col-form-label">Last Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="last_name" name="last_name">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                        <label for="email" class="col-sm-4 col-form-label">Email:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                        <label for="password" class="col-sm-4 col-form-label">Password:</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                        <label for="confirm_password" class="col-sm-4 col-form-label">Confirm Password:</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="form-control col-md-2 mt-3 btn btn-primary" value="Submit">
+                        </div>
+                    </form>
+                    <p class="text-muted text-center">Already have an account? <a href='/' >Log In</a></p>
                 </div>
             </div>
         </div>

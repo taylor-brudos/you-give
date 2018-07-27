@@ -256,11 +256,17 @@ def uploadProfilePic(request):
 
 def registerUser(request):
     if request.method=='POST':
-        password_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
-        registerUser=User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=password_hash, user_level=0,profile_pic="placeholder.jpg")
-        request.session['user_id']=registerUser.id
-        request.session['first_name']=registerUser.first_name
-        request.session['user_level']=registerUser.user_level
+        errors = User.objects.registration_validator(request.POST)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='register')
+            return redirect('/register')
+        else:
+            password_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
+            registerUser=User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=password_hash, user_level=0,profile_pic="placeholder.jpg")
+            request.session['user_id']=registerUser.id
+            request.session['first_name']=registerUser.first_name
+            request.session['user_level']=registerUser.user_level
     if 'pageSource' in request.session:
         if request.session['pageSource'] == "checkout":
             return redirect('/checkout')

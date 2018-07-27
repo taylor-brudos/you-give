@@ -1,12 +1,9 @@
 Other to-do:
 Ajax ~ both
-deploy ~ both
+Facebook share
 fill with data for presentation purposes
 (Stripe ~ both)
 
-Tenju:
-Add "remove" button for wishlist items  --> done
-Facebook share
 
 Taylor:
 Validations (login, registration, add/edit user/cause)

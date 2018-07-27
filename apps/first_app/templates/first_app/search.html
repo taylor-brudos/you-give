@@ -1,0 +1,10 @@
+{% for cause in causes %}
+    <div class="inline-b card margin shadow rounded" style="width: 18rem;">
+        <img class="card-img-top" src="{% static 'first_app/upload/'%}{{cause.logo_img}}" alt="charity logo">
+        <div class="card-body">
+            <h5 class="card-title">{{cause.name}}</h5>
+            <p class="card-text">{{cause.mission_stmt}}</p>
+            <a href="/charity/{{cause.id}}" class="btn btn-primary">View</a>
+        </div>
+    </div>
+{% endfor %}

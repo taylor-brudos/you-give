@@ -5,6 +5,7 @@ import bcrypt
 import datetime
 
 from .models import *
+from . import handle_upload
 
 
 # Create your views here.
@@ -56,7 +57,7 @@ def declineInvite(request,id):
 
 def explore(request):
     if 'cart' not in request.session:
-        request.session['cart'] = [{'total': 0.00}]
+        request.session['cart'] = [{'total': 0.00,'item_id':0}]
     causes = Cause.objects.all()
     context = {
         'causes': causes
@@ -74,10 +75,11 @@ def displayCharity_give(request, cause_id):
     if request.method == 'POST':
         x = request.session['cart']
         x[0]['total'] += float(request.POST['amount'])
+        x[0]['item_id'] += 1
         if request.POST['source'] == 'group':
-            x.append({'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source'],'group': request.POST['group_id']})
+            x.append({'item_id': x[0]['item_id'],'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source'],'group': request.POST['group_id']})
         else:
-            x.append({'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source']})
+            x.append({'item_id': x[0]['item_id'],'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source']})
         request.session['cart'] = x
         print(request.session['cart'])
     return redirect('/charity/'+cause_id)
@@ -137,6 +139,8 @@ def checkout(request):
 
 def processCheckout(request):
     if "user_id" in request.session:
+        if 'pageSource' in request.session:
+            del request.session['pageSource']
         for donation in range(1,len(request.session['cart'])):
             cause=Cause.objects.get(id=request.session['cart'][donation]['cause_id'])
             amount=request.session['cart'][donation]['amount']
@@ -152,6 +156,27 @@ def processCheckout(request):
                 removeWishlist=User.objects.get(id=request.session['user_id']).wished_causes.remove(cause)
         del request.session['cart']
         return redirect('/explore')
+    else:
+        request.session['pageSource']="checkout"
+        return redirect('/register')
+
+def removeItem(request,id):
+    if "user_id" in request.session:
+        cart=request.session['cart']
+        for donation in range(1,len(request.session['cart'])):
+            # print("type-donation__________________________",type(donation))
+            # print("type-donation_item_id__________________________",type(donation['item_id']))
+            # # print("type-id__________________________",type(donation['item_id']))
+            # print(type(id))
+            # print(type(request.session['cart'][donation]['item_id']))
+            # print("value______________",request.session['cart'][donation]['item_id'])
+            if int(cart[donation]['item_id'])==int(id):
+                removeIdx=donation
+                cart[0]['total']-=float(cart[donation]['amount'])
+        del cart[removeIdx]
+        print(cart)
+        request.session['cart']=cart
+        return redirect('/checkout')
     else:
         return redirect('/')
 
@@ -194,15 +219,34 @@ def login(request):
             request.session['user_level']=user.user_level
             request.session['first_name']=user.first_name
             messages.success(request,"Successfully logged in!")
+            if 'pageSource' in request.session:
+                if request.session['pageSource'] == "checkout":
+                    return redirect('/checkout')
         return redirect('/')
       
+def uploadProfilePic(request):
+    if "user_id" in request.session:
+        if request.method == 'POST':
+            user = User.objects.get(id=request.session['user_id'])
+            filename=request.session['first_name'].lower()+"__id__"+str(user.id)+".jpg"
+            handle_upload.handle_uploaded_file(request.FILES['file'], filename)
+            user.profile_pic=filename
+            user.save()
+            return redirect('/dashboard')
+    else:
+        return redirect('/')
+
+
 def registerUser(request):
     if request.method=='POST':
         password_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
-        registerUser=User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=password_hash, user_level=0)
+        registerUser=User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=password_hash, user_level=0,profile_pic="placeholder.jpg")
         request.session['user_id']=registerUser.id
         request.session['first_name']=registerUser.first_name
         request.session['user_level']=registerUser.user_level
+    if 'pageSource' in request.session:
+        if request.session['pageSource'] == "checkout":
+            return redirect('/checkout')
     return redirect('/explore')
 
 def logout(request):
@@ -250,5 +294,9 @@ def updateCause(request):
 
 def addCause(request):
     if request.method=='POST':
-        new_cause = Cause.objects.create(name=request.POST['name'], mission_stmt=request.POST['mission'], desc=request.POST['desc'], ein=request.POST['ein'],revenue=Revenue.objects.get(id=request.POST['revenue_id']), admin=User.objects.get(id=request.session['user_id']))
+        new_cause = Cause.objects.create(name=request.POST['name'], mission_stmt=request.POST['mission'], desc=request.POST['desc'], ein=request.POST['ein'],revenue=Revenue.objects.get(id=request.POST['revenue_id']), admin=User.objects.get(id=request.session['user_id']),logo_img="logo_placeholder.jpg")
+        filename=new_cause.name.lower()+"__logo__"+str(new_cause.id)+".jpg"
+        handle_upload.handle_uploaded_file(request.FILES['file'], filename)
+        new_cause.logo_img=filename
+        new_cause.save()
     return redirect('/admin/causes')

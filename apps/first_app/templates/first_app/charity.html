@@ -85,7 +85,7 @@
         <div class="inline-b">
             <a href="/explore" class="go-back">Go Back</a>
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="gfa logo">
+                <img class="card-img-top" src="{% static 'first_app/upload/'%}{{cause.logo_img}}" alt="gfa logo">
                 <div class="card-body">
                     <form action="/charity/{{cause.id}}/give" method="POST">
                             {% csrf_token %}

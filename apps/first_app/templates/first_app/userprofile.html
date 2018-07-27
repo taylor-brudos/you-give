@@ -18,7 +18,7 @@
                 display: inline-block;
                 vertical-align: top;
                 width: 200px;
-                height: 300px;
+                height: 350px;
                 margin: 10px;
             }
             .cardstyle-2 {
@@ -161,6 +161,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Target date: {{invitation.group.target_date}}</td>
+                                                                        <td>Organizer: {{invitation.group.organizer.first_name}} {{invitation.group.organizer.last_name}}</td>
                                                                     </tr>
                                                                     <tr>Contributers: </tr>
                                                                     <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
@@ -221,6 +222,7 @@
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Target date: {{invitation.group.target_date}}</td>
+                                                                                <td>Organizer: {{invitation.group.organizer.first_name}} {{invitation.group.organizer.last_name}}</td>
                                                                             </tr>
                                                                             <tr>Contributers: </tr>
                                                                             <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
@@ -314,7 +316,7 @@
                         <a href='/statement' class="btn btn-primary">Tax Statement</a>
                     </div>
                     <h3 class="text-center mt-5">Your Wishlist</h3>
-                    <div style="height:320px;overflow-y: scroll;">
+                    <div style="height:350px;overflow-y: scroll;">
                         <!-- <div class="card-deck m-2" > -->
                             {%for wish in user.wished_causes.all%}
                             <div class="card shadow rounded cardstyle">
@@ -341,7 +343,7 @@
                                 <img class="card-img-top" src="{% static 'first_app/upload/'%}{{donation.cause.logo_img}}" alt="World Vision">
                                 <div class="card-body">
                                 <h5 class="card-title">{{donation.cause.name}}</h5>
-                                <p class="card-text">You donated $ {{donation.amount|floatformat:2}} on {{donation.created_at}}</p>
+                                <p class="card-text">You donated $ {{donation.amount|floatformat:2}} on {{donation.created_at | date:"SHORT_DATE_FORMAT"}}</p>
                                 </div>
                             </div>
                             {%endfor%}

@@ -25,6 +25,8 @@ def userProfile(request):
             "user_donation":user.donations.aggregate(Sum('amount'))
         }
         return render(request,'first_app/userprofile.html',context)
+    else:
+        return redirect('/')
 
 def inviteUser(request,id):
     if request.method=='POST':
@@ -66,7 +68,8 @@ def explore(request):
 def displayCharity(request, cause_id):
     cause = Cause.objects.get(id=cause_id)
     context = {
-        'cause': cause
+        'cause': cause,
+        'causes': Cause.objects.all()[:5]
     }
     return render(request, 'first_app/charity.html', context)
 
@@ -78,6 +81,7 @@ def displayCharity_give(request, cause_id):
             x.append({'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source'],'group': request.POST['group_id']})
         else:
             x.append({'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source']})
+        messages.success(request,"This donation has been added to your cart!",extra_tags="cart")
         request.session['cart'] = x
         print(request.session['cart'])
     return redirect('/charity/'+cause_id)
@@ -151,7 +155,7 @@ def processCheckout(request):
             if request.session['cart'][donation]['source'] == 'wishlist':
                 removeWishlist=User.objects.get(id=request.session['user_id']).wished_causes.remove(cause)
         del request.session['cart']
-        return redirect('/explore')
+        return redirect('/thankyou')
     else:
         return redirect('/')
 
@@ -252,3 +256,11 @@ def addCause(request):
     if request.method=='POST':
         new_cause = Cause.objects.create(name=request.POST['name'], mission_stmt=request.POST['mission'], desc=request.POST['desc'], ein=request.POST['ein'],revenue=Revenue.objects.get(id=request.POST['revenue_id']), admin=User.objects.get(id=request.session['user_id']))
     return redirect('/admin/causes')
+
+def thankyou(request):
+    if 'user_id' in request.session:
+        if 'cart' not in request.session:
+            request.session['cart'] = [{'total': 0.00}]
+        return render(request,'first_app/thankyou.html')
+    else:
+        return redirect('/')

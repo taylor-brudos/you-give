@@ -39,6 +39,13 @@
         height: 175px;
         margin: 50px 0px;
     }
+    .cardstyle {
+        display: inline-block;
+        vertical-align: top;
+        width: 200px;
+        height: 300px;
+        margin: 10px;
+    }
     </style>
 </head>
 <body>
@@ -81,6 +88,9 @@
             {%if 'wishlist' in message.tags%}
                 <p class="alert-success">{{message}}</p>
             {%endif%}
+            {%if 'cart' in message.tags%}
+                <p class="alert-success">{{message}}</p>
+            {%endif%}
         {%endfor%}
         <div class="inline-b">
             <a href="/explore" class="go-back">Go Back</a>
@@ -90,7 +100,7 @@
                     <form action="/charity/{{cause.id}}/give" method="POST">
                             {% csrf_token %}
                             <label for="amount">$</label>
-                            <input class="col-sm-3 rounded" type="number" min="1.00" step="1.00" name="amount" value="10">
+                            <input class="col-sm-4 rounded" type="number" min="1.00" step="1.00" name="amount" value="10">
                             <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Give Now">
                             <input type="hidden" name="source" value="charity">
                     </form>
@@ -102,29 +112,28 @@
         </div>
         <div class="inline-b description">
             <h1>{{cause.name}}</h1>
+            <h4 class="italic">Mission Statement</h4>
+            <p>{{cause.mission_stmt}}</p>
             <h4 class="italic">Description</h4>
             <p>{{cause.desc}}</p>
         </div>
         <div class="bottom">
             <h2>Similar Organizations</h2>
-            <div class="row">
-                <div class="col-sm">
-                    <img class="charity-logo" src="{% static 'first_app/images/charity1-logo.jpg' %}" alt="charity logo">
+            <div style="height:350px;overflow-y: scroll;">
+                {% for cause in causes %}
+                <div class="card shadow rounded cardstyle">
+                    <img class="card-img-top" src="{% static "first_app/images/charity_logo_400.jpg" %}" alt="{{cause.name}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{cause.name}}</h5>
+                        <a href="/charity/{{cause.id}}" class="btn btn-primary">View</a>
+                    </div>
                 </div>
-                <div class="col-sm">
-                    <img class="charity-logo" src="{% static 'first_app/images/charity2-logo.png' %}" alt="charity logo">
-                </div>
-                <div class="col-sm">
-                    <img class="charity-logo" src="{% static 'first_app/images/charity3-logo.jpg' %}" alt="charity logo">
-                </div>
-                <div class="col-sm">
-                    <img class="charity-logo" src="{% static 'first_app/images/charity4-logo.png' %}" alt="charity logo">
-                </div>
-                <div class="col-sm">
-                    <img class="charity-logo" src="{% static 'first_app/images/charity5-logo.png' %}" alt="charity logo">
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

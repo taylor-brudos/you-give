@@ -95,27 +95,21 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         {% load static %}
-                        <a href="/charity">
-                            <img class="d-block w-100" src="{% static 'first_app/images/ijm-1.jpg' %}" alt="First slide">
-                        </a>
+                        <img class="d-block w-100" src="{% static 'first_app/images/ijm-1.jpg' %}" alt="First slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h5 class='slidefont'>International Justice Mission</h5>
                             <p class='slidefont'>"We know where people are enslaved and we have a plan to rescue them."</p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <a href="/charity">
-                            <img class="d-block w-100" src="{% static 'first_app/images/worldvision-1.jpg' %}" alt="Second slide">
-                        </a>
+                        <img class="d-block w-100" src="{% static 'first_app/images/worldvision-1.jpg' %}" alt="Second slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h5 class='slidefont'>World Vision</h5>
                             <p class='slidefont'>"Empowering people out of poverty. For real. For Good. For the past 65 years."</p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <a href="/charity">
-                            <img class="d-block w-100" src="{% static 'first_app/images/compassion-1.jpg' %}" alt="Third slide">
-                        </a>
+                        <img class="d-block w-100" src="{% static 'first_app/images/compassion-1.jpg' %}" alt="Third slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h5 class='slidefont'>Compassion International</h5>
                             <p class='slidefont'>"The world's leading authority in holistic child development through sponsorship."</p>
@@ -137,14 +131,15 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            <div class='categories margin shadow rounded bg-dark'>
+            <!-- <div class='categories margin shadow rounded bg-dark'>
                 <p class="blue">Search by Revenue:</p>
                 <a class='green' href=''>Less than $10M</a><br>
                 <a class='green' href=''>$10M to $50M</a><br>
                 <a class='green' href=''>More than $50M</a><br>
                 <a class='green' href=''>...show all</a>
-            </div>
+            </div> -->
         </div>
+        <div class="inline-b">
             {% for cause in causes %}
             <div class="inline-b card margin shadow rounded" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'first_app/images/charity_logo_400.jpg' %}" alt="charity logo">
@@ -155,6 +150,7 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>

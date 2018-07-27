@@ -60,6 +60,7 @@ def declineInvite(request,id):
 def explore(request):
     if 'cart' not in request.session:
         request.session['cart'] = [{'total': 0.00,'item_id':0}]
+    print(request.session['cart'])
     causes = Cause.objects.all()
     context = {
         'causes': causes
@@ -76,17 +77,22 @@ def displayCharity(request, cause_id):
 
 def displayCharity_give(request, cause_id):
     if request.method == 'POST':
+        # print("inside displayCharity_give_____________________",request.session['cart'])
         x = request.session['cart']
         x[0]['total'] += float(request.POST['amount'])
         x[0]['item_id'] += 1
         if request.POST['source'] == 'group':
             x.append({'item_id': x[0]['item_id'],'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source'],'group': request.POST['group_id']})
+            request.session['cart'] = x
+            return redirect('/checkout')
         else:
             x.append({'item_id': x[0]['item_id'],'cause_id': cause_id, 'cause_name':Cause.objects.get(id=cause_id).name, 'amount': request.POST['amount'], 'source': request.POST['source']})
-        messages.success(request,"This donation has been added to your cart!",extra_tags="cart")
-        request.session['cart'] = x
-        print(request.session['cart'])
-    return redirect('/charity/'+cause_id)
+            messages.success(request,"This donation has been added to your cart!",extra_tags="cart")
+            request.session['cart'] = x
+        if request.POST['source'] == 'wishlist':
+            return redirect('/dashboard')
+        else:
+            return redirect('/charity/'+cause_id)
 
 def addToWishList(request,id):
     if 'user_id' in request.session:
@@ -276,7 +282,7 @@ def updateUser(request):
 def addUser(request):
     if request.method=='POST':
         pw_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
-        new_user = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=pw_hash, user_level=request.POST['user_level'])
+        new_user = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=pw_hash, user_level=request.POST['user_level'],profile_pic="placeholder.jpg")
     return redirect('/admin/users')
 
 def deleteCause(request):
@@ -308,7 +314,7 @@ def addCause(request):
 def thankyou(request):
     if 'user_id' in request.session:
         if 'cart' not in request.session:
-            request.session['cart'] = [{'total': 0.00}]
+            request.session['cart'] = [{'total': 0.00,'item_id':0}]
         return render(request,'first_app/thankyou.html')
     else:
         return redirect('/')

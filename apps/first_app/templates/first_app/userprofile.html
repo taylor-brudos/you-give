@@ -67,11 +67,11 @@
                     {% endif %}
                 </ul>
             </nav>
-            <!-- {%for message in messages%}
-            {%if 'groupcart' in message.tags%}
+            {%for message in messages%}
+            {%if 'cart' in message.tags%}
                 <p class="alert-success">{{message}}</p>
             {%endif%}
-            {%endfor%} -->
+            {%endfor%}
             <div class="row ml-5 mr-3 mt-3">
                 <div class="col-md-3 mr-5">
                     
@@ -140,7 +140,7 @@
                                                             
                                                         </div>
                                                         <div class="modal-body">
-                                                            <h5>Collected $ {{invitation.group.contributions}} as of today.</h5>
+                                                            <h5>Collected $ {{invitation.group.contributions|floatformat:2}} as of today.</h5>
                                                             <div class="form-group">
                                                                 <form action='/invite/{{invitation.group.id}}' method="POST">
                                                                     {%csrf_token%}
@@ -156,7 +156,7 @@
                                                             <table class="table table-borderless">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td>Goal: ${{invitation.group.goal}}</td>
+                                                                        <td>Goal: ${{invitation.group.goal|floatformat:2}}</td>
                                                                         <td>Organization: {{invitation.group.cause.name}}</td>
                                                                     </tr>
                                                                     <tr>
@@ -165,7 +165,7 @@
                                                                     <tr>Contributers: </tr>
                                                                     <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
                                                                         {%for donation in invitation.group.donations.all reversed%}
-                                                                            <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount}}</p>
+                                                                            <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount|floatformat:2}}</p>
                                                                         {%endfor%}
                                                                     </div></tr>
                                                                 </tbody>
@@ -208,7 +208,7 @@
                                                                     
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <h5>Collected $ {{invitation.group.contributions}} as of today.</h5>
+                                                                    <h5>Collected $ {{invitation.group.contributions|floatformat:2}} as of today.</h5>
                                                                     <div class="form-group">
                                                                         <a href = '/acceptinvite/{{invitation.id}}' class="btn btn-success shadow rounded">Accept</a>
                                                                         <a href = '/declineinvite/{{invitation.id}}' class="btn btn-danger shadow rounded">Decline</a>
@@ -216,7 +216,7 @@
                                                                     <table class="table table-borderless">
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td>Goal: ${{invitation.group.goal}}</td>
+                                                                                <td>Goal: ${{invitation.group.goal|floatformat:2}}</td>
                                                                                 <td>Organization: {{invitation.group.cause.name}}</td>
                                                                             </tr>
                                                                             <tr>
@@ -225,7 +225,7 @@
                                                                             <tr>Contributers: </tr>
                                                                             <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
                                                                                 {%for donation in invitation.group.donations.all reversed%}
-                                                                                    <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount}}</p>
+                                                                                    <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount|floatformat:2}}</p>
                                                                                 {%endfor%}
                                                                             </div></tr>
                                                                         </tbody>
@@ -260,7 +260,7 @@
                                                         <table class="table table-borderless">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>Goal (USD):</td><td><input type="text" class="col-md-5 form-control" name="goal" value="{{group.goal}}"></td>
+                                                                    <td>Goal (USD):</td><td><input type="text" class="col-md-5 form-control" name="goal" value="{{group.goal|floatformat:2}}"></td>
                                                                 </tr>
                                                                     <td>Organization: </td>
                                                                     <td>    <select class="form-control" name="org">
@@ -304,10 +304,10 @@
                         <table class="table table-borderless m-5">
                             <tbody>
                                 <tr>
-                                    <td><h4>Lifetime Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum}}</h4></td>
+                                    <td><h4>Lifetime Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum|floatformat:2}}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td><h4>YTD Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum}}</h4></td>
+                                    <td><h4>YTD Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum|floatformat:2}}</h4></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -323,7 +323,7 @@
                                     <h5 class="card-title">{{wish.name}}</h5>
                                     <form action="/charity/{{wish.id}}/give" method="POST">
                                         {% csrf_token %}
-                                        $ <input type="text" class="col-md-3" name="amount" value="10">
+                                        $ <input type="text" class="col-md-4" name="amount" value="10">
                                         <input type="submit" class="btn btn-sm shadow rounded btn-primary card-text" value="Give Now">
                                         <input type="hidden" name="source" value="wishlist">
                                     </form>
@@ -340,7 +340,7 @@
                                 <img class="card-img-top" src="{% static 'first_app/upload/'%}{{donation.cause.logo_img}}" alt="World Vision">
                                 <div class="card-body">
                                 <h5 class="card-title">{{donation.cause.name}}</h5>
-                                <p class="card-text">You donated $ {{donation.amount}} on {{donation.created_at}}</p>
+                                <p class="card-text">You donated $ {{donation.amount|floatformat:2}} on {{donation.created_at}}</p>
                                 </div>
                             </div>
                             {%endfor%}

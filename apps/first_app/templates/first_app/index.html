@@ -21,6 +21,13 @@
             background-color: #00AD9D;
         }
         </style>
+        <script>
+            $(document).ready(function() {
+                {% if messages %}
+                $("#loginModal").modal("show");
+                {% endif %}
+            });
+            </script>
         <title>YouGive | Home</title>
     </head>
     <body>
@@ -60,6 +67,13 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            {%if messages%}
+                                {%for message in messages%}
+                                    {%if 'login' in message.tags%}
+                                        <ul class="text-danger">{{message}}</ul>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
                             <form action='/login' method='POST'>
                                 {% csrf_token %}
                                 <div class="form-group">

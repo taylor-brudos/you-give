@@ -11,7 +11,22 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
         <style>
             .background {
-                background: linear-gradient(to bottom right, #0970C0, #00AD9D)
+                background: linear-gradient(to bottom right, #0970C0, #00AD9D);
+                min-height: 1400px;
+            }
+            .cardstyle {
+                display: inline-block;
+                vertical-align: top;
+                width: 200px;
+                height: 300px;
+                margin: 10px;
+            }
+            .cardstyle-2 {
+                display: inline-block;
+                vertical-align: top;
+                width: 200px;
+                height: 340px;
+                margin: 10px;
             }
         </style>
         <title>YouGive | Profile</title>
@@ -52,6 +67,11 @@
                     {% endif %}
                 </ul>
             </nav>
+            <!-- {%for message in messages%}
+            {%if 'groupcart' in message.tags%}
+                <p class="alert-success">{{message}}</p>
+            {%endif%}
+            {%endfor%} -->
             <div class="row ml-5 mr-3 mt-3">
                 <div class="col-md-3 mr-5">
                     
@@ -280,7 +300,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="border border-1 shadow rounded bg-light p-3">
-                        <h1 class="text-center">You Gave</h1>
+                        <h1 class="text-center">YouGave</h1>
                         <table class="table table-borderless m-5">
                             <tbody>
                                 <tr>
@@ -293,30 +313,30 @@
                         </table>
                         <a href='/statement' class="btn btn-primary">Tax Statement</a>
                     </div>
-                    
                     <h3 class="text-center mt-5">Your Wishlist</h3>
-                    <div style="height:280px;overflow-y: scroll;">
-                        <div class="card-deck m-2" >
-                                {%for wish in user.wished_causes.all%}
-                                <div class="card shadow rounded" style="width: 400px;">
-                                    <img class="card-img-top" src="{% static 'first_app/upload/'%}{{wish.logo_img}}" alt="{{wish.name}}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{wish.name}}</h5>
-                                        <form action="/charity/{{wish.id}}/give" method="POST">
-                                            {% csrf_token %}
-                                            $ <input type="text" class="col-md-3" name="amount" value="10">
-                                            <input type="submit" class="btn btn-sm shadow rounded btn-primary card-text" value="Give Now">
-                                            <input type="hidden" name="source" value="wishlist">
-                                        </form>
-                                    </div>
+                    <div style="height:320px;overflow-y: scroll;">
+                        <!-- <div class="card-deck m-2" > -->
+                            {%for wish in user.wished_causes.all%}
+                            <div class="card shadow rounded cardstyle">
+                                <img class="card-img-top" src="{% static 'first_app/upload/'%}{{wish.logo_img}}" alt="{{wish.name}}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{wish.name}}</h5>
+                                    <form action="/charity/{{wish.id}}/give" method="POST">
+                                        {% csrf_token %}
+                                        $ <input type="text" class="col-md-3" name="amount" value="10">
+                                        <input type="submit" class="btn btn-sm shadow rounded btn-primary card-text" value="Give Now">
+                                        <input type="hidden" name="source" value="wishlist">
+                                    </form>
                                 </div>
-                                {%endfor%}
                             </div>
-                        </div><h3 class="text-center mt-5">Your Portfolio</h3>
-                    <div style="height:280px;overflow-y: scroll;">
-                        <div class="card-deck m-2">
+                            {%endfor%}
+                            <!-- </div> -->
+                        </div>
+                    <h3 class="text-center mt-5">Your Portfolio</h3>
+                    <div style="height:350px;overflow-y: scroll;">
+                        <!-- <div class="card-deck m-2"> -->
                             {%for donation in user.donations.all%}
-                            <div class="card shadow rounded">
+                            <div class="card shadow rounded cardstyle-2">
                                 <img class="card-img-top" src="{% static 'first_app/upload/'%}{{donation.cause.logo_img}}" alt="World Vision">
                                 <div class="card-body">
                                 <h5 class="card-title">{{donation.cause.name}}</h5>
@@ -324,7 +344,7 @@
                                 </div>
                             </div>
                             {%endfor%}
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>

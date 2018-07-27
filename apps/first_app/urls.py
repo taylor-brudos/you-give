@@ -32,7 +32,8 @@ urlpatterns = [
     url(r'^acceptinvite/(?P<id>\d+)$', views.acceptInvite),  
     url(r'^declineinvite/(?P<id>\d+)$', views.declineInvite), 
     url(r'^processcheckout$', views.processCheckout), 
-    url(r'^addtowishlist/(?P<id>\d+)$', views.addToWishList), 
     url(r'^removeitem/(?P<id>\d+)$', views.removeItem), 
     url(r'^uploadprofilepic$', views.uploadProfilePic), 
+    url(r'^addtowishlist/(?P<id>\d+)$', views.addToWishList),
+    url(r'^thankyou$', views.thankyou),
 ]

@@ -1,16 +1,9 @@
 Other to-do:
+Validations for modals (login, add/edit user/cause) 
 Ajax ~ both
-Facebook share
-fill with data for presentation purposes
+mobile responsiveness
+if wishlist/portfolio is empty, add something there
 (Stripe ~ both)
-
-
-Taylor:
-Validations (login, registration, add/edit user/cause)
-Super admin
-if wishlist/portfolio is empty, add something there 
-
-
 
 Admin login:
 admin@dev.null
@@ -19,4 +12,3 @@ YouGive2018
 User login:
 taylorbrudos@dev.null
 pa55word123
-

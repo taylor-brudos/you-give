@@ -149,6 +149,9 @@
                         {% else %}
                         <td>User</td>
                         {% endif %}
+                        {% if user.user_level == 1 %}
+                        <td></td>
+                        {% else %}
                         <td>
                             <a href="" data-toggle="modal" data-target="#exampleModalEdit{{user.id}}" class="btn-link">Edit</a>
                             <form action="/deleteuser" method="post">
@@ -156,6 +159,7 @@
                                 <button type="submit" name="user_id" value="{{user.id}}" class="btn-link">Delete</button>
                             </form>
                         </td>
+                        {% endif %}
                     </tr>
                     <div class="modal fade" id="exampleModalEdit{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">

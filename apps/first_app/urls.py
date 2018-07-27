@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^uploadprofilepic$', views.uploadProfilePic), 
     url(r'^addtowishlist/(?P<id>\d+)$', views.addToWishList),
     url(r'^removewishlist/(?P<id>\d+)$', views.removeWishList),
+    url(r'^ajasearxh/(?P<id>\w+)$', views.ajaxSearch),
     url(r'^thankyou$', views.thankyou),
 ]

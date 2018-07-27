@@ -67,6 +67,12 @@ def explore(request):
     }
     return render(request, 'first_app/explore.html', context)
 
+def ajaxSearch(request,id):
+    context={
+        'causes': Cause.objects.filter(name__contains=item)
+    }
+    return render(request,'first_app/search.html',context)
+
 def displayCharity(request, cause_id):
     cause = Cause.objects.get(id=cause_id)
     context = {

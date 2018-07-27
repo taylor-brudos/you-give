@@ -69,7 +69,7 @@ def explore(request):
 
 def ajaxSearch(request,id):
     context={
-        'causes': Cause.objects.filter(name__contains=item)
+        'causes': Cause.objects.filter(name__contains=id)
     }
     return render(request,'first_app/search.html',context)
 

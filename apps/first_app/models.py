@@ -3,6 +3,8 @@ import bcrypt
 import re
 import datetime
 
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+
 class UserManager(models.Manager):
     def login_validator(self,postData):
         errors={}
@@ -33,7 +35,7 @@ class UserManager(models.Manager):
             errors['email'] = 'Email is not valid'
         if len(postData['password']) < 8:
             errors['password'] = 'Password must be at least 8 characters'
-        elif postData['password'] != postData['confirm_pw']:
+        elif postData['password'] != postData['confirm_password']:
             errors['confirm_pw'] = 'Passwords must match'
         return errors
 

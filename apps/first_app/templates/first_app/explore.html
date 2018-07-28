@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
     <title>YouGive | Explore</title>
     <style>
@@ -132,21 +132,9 @@
             </div>
         </div>
         <div class="sidebar inline-b">
-            <form class="margin form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="searchAjax">
-                <script>
-                    $('#searchAjax').keyup(function(){
-                        var searchFor=this.value;
-                        console.log(searchFor);
-                        $.ajax({
-                            url: '/ajaxsearch/'+searchFor,
-                            success: function(serverResponse){
-                                // console.log('successs.. serverResponse: ', serverResponse)
-                                $('#ajaxresponse').html(serverResponse)
-                            }
-                        });
-                    });
-                </script>
+            <form class="margin form-inline my-2 my-lg-0" id="searchAjax" method="post">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <!-- <div class='categories margin shadow rounded bg-dark'>
@@ -158,7 +146,7 @@
             </div> -->
         </div>
         <div class="inline-b" id='ajaxresponse'>
-            {% for cause in causes %}
+            <!-- {% for cause in causes %}
             <div class="inline-b card margin shadow rounded" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'first_app/upload/'%}{{cause.logo_img}}" alt="charity logo">
                 <div class="card-body">
@@ -167,7 +155,7 @@
                     <a href="/charity/{{cause.id}}" class="btn btn-primary">View</a>
                 </div>
             </div>
-            {% endfor %}
+            {% endfor %} -->
         </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
@@ -179,8 +167,34 @@
             </ul>
         </nav>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                method: 'POST',
+                url: '/ajaxdisplay',
+                data: $('#searchAjax').serialize(),
+                success: function(serverResponse){
+                    // console.log('successs.. serverResponse: ', serverResponse)
+                    $('#ajaxresponse').html(serverResponse)
+                }
+            });
+        })
+        $('#searchAjax').keyup(function(){
+            var searchFor=this.value;
+            console.log(searchFor);
+            $.ajax({
+                method: 'POST',
+                url: '/ajaxsearch',
+                data: $('#searchAjax').serialize(),
+                success: function(serverResponse){
+                    // console.log('successs.. serverResponse: ', serverResponse)
+                    $('#ajaxresponse').html(serverResponse)
+                }
+            });
+        });
+    </script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script> -->
 </body>
 </html>

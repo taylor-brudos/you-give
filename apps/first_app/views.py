@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from django.db.models import Sum
+from django.views.decorators.csrf import csrf_exempt
 import bcrypt
 import datetime
 
@@ -67,9 +68,16 @@ def explore(request):
     }
     return render(request, 'first_app/explore.html', context)
 
-def ajaxSearch(request,id):
+def ajaxSearch(request):
     context={
-        'causes': Cause.objects.filter(name__contains=id)
+        'causes': Cause.objects.filter(name__contains=request.POST['search'])
+    }
+    return render(request,'first_app/search.html',context)
+
+@csrf_exempt
+def ajaxDisplay(request):
+    context={
+        'causes': Cause.objects.all()
     }
     return render(request,'first_app/search.html',context)
 

@@ -1,5 +1,6 @@
 {% for cause in causes %}
     <div class="inline-b card margin shadow rounded" style="width: 18rem;">
+        {% load static %}
         <img class="card-img-top" src="{% static 'first_app/upload/'%}{{cause.logo_img}}" alt="charity logo">
         <div class="card-body">
             <h5 class="card-title">{{cause.name}}</h5>

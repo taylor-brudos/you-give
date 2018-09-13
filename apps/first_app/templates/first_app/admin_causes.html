@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <title>Admin | Causes</title>
+    <style>
+    .background {
+        background: linear-gradient(to bottom right, #0970C0, #00AD9D);
+        min-height: 1000px;
+    }
+    .margin {
+        margin: 20px;
+    }
+    .btn {
+        margin-bottom: 20px;
+    }
+    .button {
+        text-align: center;
+        color: white;
+    }
+    .description {
+        width: 30%;
+    }
+    .margin-sides {
+        margin: 0px 30px;
+    }
+    .btn-link {
+        border:none;
+        outline:none;
+        background:none;
+        cursor:pointer;
+        color:#0970C0;
+        padding:0;
+        font-family:inherit;
+        font-size:inherit;
+        display: inline-block;
+    }
+    </style>
+</head>
+<body>
+    <div class="container-fluid background p-0">
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="/explore">
+            {% load static %}
+              <img src="{% static 'first_app/images/globe_trans.png' %}" width="60" height="60" alt="YouGive Logo">
+              YouGive
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/explore">Explore</a>
+                </li>
+                {% if 'user_id' in request.session %}
+                {% if request.session.user_level == 1 %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/admin/users">Admin <span class="sr-only">(current)</span></a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/checkout">My Cart</a>
+                </li>
+                {% if 'user_id' in request.session %}
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <li class="navbar-text text-right">
+                    <a href="/register">Login/Register</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <nav class="margin" aria-label="Switch between admin modes">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                <a class="page-link" href="/admin/users" tabindex="-1">Users</a>
+                </li>
+                <li class="page-item active">
+                <a class="page-link" href="/admin/causes">Causes<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </nav>
+        <div class="button">
+            <a class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">Add Cause</a><br>
+        </div>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Add Cause</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/addcause" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name:</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name of the cause" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Mission Statement:</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="mission" placeholder="Please enter the mission statement"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="file">Logo:</label>
+                            <input type="file" name="file">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description:</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="desc" placeholder="Description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">EIN:</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter the EIN" name="ein">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Revenue</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="revenue_id">
+                                <option value="1">Less than $10M</option>
+                                <option value="2">$10M to $50M</option>
+                                <option value="3">More than $50M</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="margin-sides">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">EIN</th>
+                    <th scope="col">Mission Statement</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Revenue</th>
+                    <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cause in causes %}
+                    <tr>
+                        <td>{{cause.name}}</td>
+                        <td>{{cause.ein}}</td>
+                        <td>{{cause.mission_stmt}}</td>
+                        <td class="description">{{cause.desc}}</td>
+                        {% if cause.revenue_id == 1 %}
+                        <td>Less than $10M</td>
+                        {% elif cause.revenue_id == 2 %}
+                        <td>$10M to $50M</td>
+                        {% else %}
+                        <td>More than $50M</td>
+                        {% endif %}
+                        <td>
+                            <a href="" data-toggle="modal" class="btn-link" data-target="#exampleModalEdit{{cause.id}}">Edit</a>
+                            <form action="/deletecause" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="cause_id" value="{{cause.id}}" class="btn-link">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="exampleModalEdit{{cause.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Cause</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/updatecause" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Name:</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name" value="{{cause.name}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Mission Statement:</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="mission">{{cause.mission_stmt}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Description:</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="desc">{{cause.desc}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">EIN:</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="ein" value="{{cause.ein}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Revenue</label>
+                                            <select class="form-control" id="exampleFormControlSelect1" name="revenue_id">
+                                                <option value="1">Less than $10M</option>
+                                                <option value="2">$10M to $50M</option>
+                                                <option value="3">More than $50M</option>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="cause_id" value="{{cause.id}}">
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

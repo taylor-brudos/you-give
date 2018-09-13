@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        <style>
+            .background {
+                background: linear-gradient(to bottom right, #0970C0, #00AD9D)
+            }
+        </style>
+        <title>YouGive | Checkout</title>
+    </head>
+    <body>
+        <div class="container-fluid background p-0" style="min-height: 990px">
+                <nav class="navbar navbar-expand navbar-dark bg-dark">
+                    <a class="navbar-brand" href="/explore">
+                    {% load static %}
+                        <img src="{% static 'first_app/images/globe_trans.png' %}" width="60" height="60" alt="YouGive Logo">
+                        YouGive
+                    </a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
+                        </li>
+                        {% if 'user_id' in request.session %}
+                        {% if request.session.user_level == 1 %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">Admin</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">Dashboard</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/checkout">My Cart</a>
+                        </li>
+                        {% if 'user_id' in request.session %}
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="/logout">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="navbar-text text-right">
+                            <a href="/register">Login/Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            <div class="container mt-3">
+                <table class="mx-auto table table-striped table-bordered bg-light shadow rounded">
+                <thead>
+                    <tr class="text-center">
+                        <th>Causes</th>
+                        <th>Amount (USD)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-right">
+                    {%for donation in request.session.cart%}
+                        {%if not 'total' in donation %}
+                        <tr>
+                            <td class="text-left">{{donation.cause_name}}</td>
+                            <td>{{donation.amount|floatformat:2}}</td>
+                            <td><a href="/removeitem/{{donation.item_id}}">remove</td>
+                        </tr>
+                        {%endif%}
+                    {%endfor%}
+                </tbody>
+            </table>
+            {%for donation in request.session.cart%}
+                {%if 'total' in donation %}
+                    <p class="text-right">Total: <span class="font-weight-bold">${{donation.total|floatformat:2}}</span></p>
+                {%endif%}
+            {%endfor%}
+            <a href="/processcheckout" class="btn btn-success shadow rounded">Checkout</a>    
+            <!-- <div class="row">
+                <div class="col-md-8 mx-auto bg-light shadow rounded p-3 mb-3">
+                        <h5 class="mb-4">Billing Information</h5>
+                        <form>
+                            <div class="form-group row">
+                            <label for="firstNameBill" class="col-md-4 col-form-label">First Name:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="firstNameBill">
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                            <label for="lastNameBill" class="col-sm-4 col-form-label">Last Name:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="lastNameBill">
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                            <label for="addressBill" class="col-sm-4 col-form-label">Address:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="addressBill">
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                            <label for="address2Bill" class="col-sm-4 col-form-label">Address 2:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="address2Bill">
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                            <label for="cityBill" class="col-sm-4 col-form-label">City:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="cityBill">
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                            <label for="stateBill" class="col-sm-4 col-form-label">State:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="stateBill">
+                            </div>
+                            </div>
+                            <div class="p-2 bg-secondary shadow rounded">
+                                <div class="form-group row mt-5">
+                                    <label for="card" class="col-sm-4 col-form-label">Card:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="card">
+                                    </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    <label for="security" class="col-sm-4 col-form-label">Security Code:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" id="security">
+                                    </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    <label for="expiry2" class="col-sm-4 col-form-label">Expiration:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="expiry1" placeholder="mm">
+                                    </div>
+                                    <span>/</span>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="expiry2" placeholder="yyyy">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-lg shadow">Pay</button>
+                            </div>
+                            
+                        </form>
+                </div>
+            </div> -->
+        </div>
+        </div>
+    </body>
+</html>

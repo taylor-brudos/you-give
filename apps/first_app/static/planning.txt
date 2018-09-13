@@ -1,0 +1,41 @@
+Other to-do:
+Validations for modals (login, add/edit user/cause) 
+Ajax ~ both
+mobile responsiveness
+if wishlist/portfolio is empty, add something there
+(Stripe ~ both)
+
+Admin login:
+admin@dev.null
+YouGive2018
+
+User login:
+taylorbrudos@dev.null
+pa55word123
+
+
+
+
+1. Overview -taylor
+2. show login button
+3. explore without logging in
+4. View IJM 
+5. give now
+6. my cart, checkout attempt (holding account discussion)
+7. show registration validation
+7. log in as regular user
+8. checkout 
+9. thank you message (discussion about receipt and transaction ID in the future)
+10. facebook share
+11. "keep exploring" button
+12. add a cause to wishlist
+13. dashboard 
+14. create a group
+15. contribute via group
+16. send invite to Taylor
+17. tax statement
+18. logout
+19. log in with Taylor
+20. Show invite 
+21. accept invite, contribute, invite system admin from Taylor's account
+21. admin

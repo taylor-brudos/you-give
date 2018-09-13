@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        <style>
+            .background {
+                background: linear-gradient(to bottom right, #0970C0, #00AD9D);
+                min-height: 1400px;
+            }
+            .cardstyle {
+                display: inline-block;
+                vertical-align: top;
+                width: 200px;
+                height: 350px;
+                margin: 10px;
+            }
+            .cardstyle-2 {
+                display: inline-block;
+                vertical-align: top;
+                width: 200px;
+                height: 340px;
+                margin: 10px;
+            }
+        </style>
+        <title>YouGive | Profile</title>
+    </head>
+    <body>
+        <div class="container-fluid mx-auto p-0 pb-3 background">
+            <nav class="navbar navbar-expand navbar-dark bg-dark">
+                <a class="navbar-brand" href="/explore">
+                {% load static %}
+                    <img src="{% static 'first_app/images/globe_trans.png' %}" width="60" height="60" alt="YouGive Logo">
+                    YouGive
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
+                    </li>
+                    {% if 'user_id' in request.session %}
+                    {% if request.session.user_level == 1 %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">Admin</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard">Dashboard</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/checkout">My Cart</a>
+                    </li>
+                    {% if 'user_id' in request.session %}
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="/logout">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="navbar-text text-right">
+                        <a href="/register">Login/Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {%for message in messages%}
+            {%if 'cart' in message.tags%}
+                <p class="alert-success">{{message}}</p>
+            {%endif%}
+            {%endfor%}
+            <div class="row ml-5 mr-3 mt-3">
+                <div class="col-md-3 mr-5">
+                    
+                    <div class="ml-5" style="width: 270px; height:270px;">
+                        <img class="w-100 ml-3 border border-dark shadow rounded-circle" src="{% static 'first_app/upload/'%}{{user.profile_pic}}" alt="User Profile"/>
+                    </div>
+                    <h5 class="text-center m-0">{{user.first_name}} {{user.last_name}}<a data-toggle="modal" data-target="#img_upload"><i class="material-icons md-12">add_a_photo</i></a></h5>
+                    <div class="modal fade" id="img_upload" role="dialog">
+                            <div class="modal-dialog">
+                            
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Upload profile picture</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/uploadprofilepic" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <input type="file" name="file">
+                                        <input class="btn btn-primary mt-2 shadow rounded" type="submit" value="Upload File">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    <h4 class="text-center m-3">Badges</h4>
+                    <div class="text-center">
+                        <i class="material-icons">bookmark</i>
+                        <i class="material-icons">bookmark</i>
+                        <i class="material-icons">bookmark_border</i>
+                        <i class="material-icons">bookmark_border</i>
+                        <i class="material-icons">bookmark_border</i>
+                    </div>
+                    <!-- {%for invitedUser in all_users.all%} -->
+                    <!-- {%if user not in invitation.invitee.all%} -->
+                    <!-- <p>{{all_users}}</p> -->
+                    <!-- {%endif%} -->
+                    <!-- {%endfor%} -->
+                    <div class="bg-light border border-1 shadow rounded p-3 mt-5">
+                        <h4 class="text-center m-3">Groups</h4>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-active-tab" data-toggle="tab" href="#nav-active" role="tab" aria-controls="nav-active" aria-selected="true">Active</a>
+                                <a class="nav-item nav-link" id="nav-invites-tab" data-toggle="tab" href="#nav-invites" role="tab" aria-controls="nav-invites" aria-selected="false">Invites</a>
+                                <a class="nav-item nav-link" id="nav-manage-tab" data-toggle="tab" href="#nav-manage" role="tab" aria-controls="nav-manage" aria-selected="false">Manage</a>
+                            </div>
+                            </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-active" role="tabpanel" aria-labelledby="nav-active-tab">
+                                <ul class="list-group list-group-flush">
+                                    {%for invitation in user.invitations.all%}
+                                        {%if invitation.is_accepted%}
+                                            <li class="list-group-item"><a data-toggle="modal" data-target="#activeModal{{invitation.id}}">{{invitation.group.title}}</a></li>
+                                            <div class="modal fade" id="activeModal{{invitation.id}}" role="dialog">
+                                                    <div class="modal-dialog">
+                                                    
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">{{invitation.group.title}}</h4>
+                                                            
+                                                            
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Collected $ {{invitation.group.contributions|floatformat:2}} as of today.</h5>
+                                                            <div class="form-group">
+                                                                <form action='/invite/{{invitation.group.id}}' method="POST">
+                                                                    {%csrf_token%}
+                                                                    <label for="invite">Invite other YouGive members: </label>
+                                                                    <select class="form-control col-md-6" id="invite" name="invite">
+                                                                        {%for user in all_users%}
+                                                                            <option value="{{user.id}}">{{user.first_name}}</option>
+                                                                        {%endfor%}
+                                                                    </select>
+                                                                    <input type="submit" class="btn btn-sm btn-primary mt-2 shadow rounded" value="Invite">
+                                                                </form>
+                                                            </div>
+                                                            <table class="table table-borderless">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Goal: ${{invitation.group.goal|floatformat:2}}</td>
+                                                                        <td>Organization: {{invitation.group.cause.name}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Target date: {{invitation.group.target_date}}</td>
+                                                                        <td>Organizer: {{invitation.group.organizer.first_name}} {{invitation.group.organizer.last_name}}</td>
+                                                                    </tr>
+                                                                    <tr>Contributers: </tr>
+                                                                    <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
+                                                                        {%for donation in invitation.group.donations.all reversed%}
+                                                                            <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount|floatformat:2}}</p>
+                                                                        {%endfor%}
+                                                                    </div></tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <form action='/charity/{{invitation.group.cause.id}}/give' method="POST">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label for="amount">Amount: $</label>
+                                                                    <input class="col-sm-2 rounded" type="text" name="amount" value="10">
+                                                                    <input type="submit" class="btn btn-sm btn-success shadow rounded" value="Contribute">
+                                                                    <input type="hidden" name="source" value="group">
+                                                                    <input type="hidden" name="group_id" value="{{invitation.group.id}}">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                        {%endif%}
+                                    {%endfor%}
+                                </ul>
+                            </div>
+                            <div class="tab-pane fade" id="nav-invites" role="tabpanel" aria-labelledby="nav-invites-tab">
+                                    <ul class="list-group list-group-flush">
+                                            {%for invitation in user.invitations.all%}
+                                                {%if not invitation.is_accepted%}
+                                                    <li class="list-group-item"><a data-toggle="modal" data-target="#inviteModal{{invitation.id}}">{{invitation.group.title}}</a></li>
+                                                    <div class="modal fade" id="inviteModal{{invitation.id}}" role="dialog">
+                                                            <div class="modal-dialog">
+                                                            
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">{{invitation.group.title}}</h4>
+                                                                    
+                                                                    
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h5>Collected $ {{invitation.group.contributions|floatformat:2}} as of today.</h5>
+                                                                    <div class="form-group">
+                                                                        <a href = '/acceptinvite/{{invitation.id}}' class="btn btn-success shadow rounded">Accept</a>
+                                                                        <a href = '/declineinvite/{{invitation.id}}' class="btn btn-danger shadow rounded">Decline</a>
+                                                                    </div>
+                                                                    <table class="table table-borderless">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Goal: ${{invitation.group.goal|floatformat:2}}</td>
+                                                                                <td>Organization: {{invitation.group.cause.name}}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Target date: {{invitation.group.target_date}}</td>
+                                                                                <td>Organizer: {{invitation.group.organizer.first_name}} {{invitation.group.organizer.last_name}}</td>
+                                                                            </tr>
+                                                                            <tr>Contributers: </tr>
+                                                                            <tr><div class="border border-1 p-3" style="height:180px;overflow-y: scroll;">
+                                                                                {%for donation in invitation.group.donations.all reversed%}
+                                                                                    <p class="text-success">{{donation.giver.first_name}} contributed $ {{donation.amount|floatformat:2}}</p>
+                                                                                {%endfor%}
+                                                                            </div></tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                {%endif%}
+                                            {%endfor%}
+                                        </ul>
+                            </div>
+                            <div class="tab-pane fade" id="nav-manage" role="tabpanel" aria-labelledby="nav-manage-tab">
+                                <ul class="list-group list-group-flush">
+                                    {%for group in user.groups.all%}
+                                        <li class="list-group-item"><a data-toggle="modal" data-target="#groupEditModal{{group.id}}">{{group.title}}</a></li>
+                                        <div class="modal fade" id="groupEditModal{{group.id}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">{{group.title}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action='/updategroup/{{group.id}}' method="POST">
+                                                        {%csrf_token%}
+                                                        <table class="table table-borderless">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Goal (USD):</td><td><input type="text" class="col-md-5 form-control" name="goal" value="{{group.goal|floatformat:2}}"></td>
+                                                                </tr>
+                                                                    <td>Organization: </td>
+                                                                    <td>    <select class="form-control" name="org">
+                                                                            {%for organization in all_causes%}
+                                                                                <option value="{{organization.id}}">{{organization.name}}</option>
+                                                                            {%endfor%}
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Current Target date: </td><td>{{group.target_date}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>New Target date: </td><td><input class="form-control" name="target_date" type="date" placeholder="{{group.target_date}}"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                            <input type="submit" class="btn btn-sm btn-primary shadow rounded" value="Update">
+                                                        </form>
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                    {%endfor%}
+                                </ul>
+                                <a href="/addgroup" class="btn btn-primary mt-2 shadow rounded">Create a group</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <div class="col-md-8">
+                    <div class="border border-1 shadow rounded bg-light p-3">
+                        <h1 class="text-center">YouGave</h1>
+                        <table class="table table-borderless m-5">
+                            <tbody>
+                                <tr>
+                                    <td><h4>Lifetime Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum|floatformat:2}}</h4></td>
+                                </tr>
+                                <tr>
+                                    <td><h4>YTD Giving Amount: </h4></td><td><h4>$ {{user_donation.amount__sum|floatformat:2}}</h4></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href='/statement' class="btn btn-primary">Tax Statement</a>
+                    </div>
+                    <h3 class="text-center mt-5">Your Wishlist</h3>
+                    <div style="height:350px;overflow-y: scroll;">
+                        <!-- <div class="card-deck m-2" > -->
+                            {%for wish in user.wished_causes.all%}
+                            <div class="card shadow rounded cardstyle">
+                                <img class="card-img-top" src="{% static 'first_app/upload/'%}{{wish.logo_img}}" alt="{{wish.name}}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{wish.name}}</h5>
+                                    <form action="/charity/{{wish.id}}/give" method="POST">
+                                        {% csrf_token %}
+                                        $ <input type="text" class="col-md-4" name="amount" value="10">
+                                        <input type="submit" class="btn btn-sm shadow rounded btn-primary card-text" value="Give Now">
+                                        <input type="hidden" name="source" value="wishlist">
+                                    </form>
+                                    <p><a href="removewishlist/{{wish.id}}" class="text-muted mt-5">remove</a></p>
+                                </div>
+                            </div>
+                            {%endfor%}
+                            <!-- </div> -->
+                        </div>
+                    <h3 class="text-center mt-5">Your Portfolio</h3>
+                    <div style="height:350px;overflow-y: scroll;">
+                        <!-- <div class="card-deck m-2"> -->
+                            {%for donation in user.donations.all%}
+                            <div class="card shadow rounded cardstyle-2">
+                                <img class="card-img-top" src="{% static 'first_app/upload/'%}{{donation.cause.logo_img}}" alt="World Vision">
+                                <div class="card-body">
+                                <h5 class="card-title">{{donation.cause.name}}</h5>
+                                <p class="card-text">You donated $ {{donation.amount|floatformat:2}} on {{donation.created_at | date:"SHORT_DATE_FORMAT"}}</p>
+                                </div>
+                            </div>
+                            {%endfor%}
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

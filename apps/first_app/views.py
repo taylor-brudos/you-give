@@ -337,6 +337,11 @@ def addCause(request):
         handle_upload.handle_uploaded_file(request.FILES['file'], filename)
         new_cause.logo_img=filename
         new_cause.save()
+    # sample dead code
+    else:
+        always_true = True
+        if not always_true:
+            # some code that never gets executed.  
     return redirect('/admin/causes')
 
 def thankyou(request):

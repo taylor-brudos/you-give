@@ -342,6 +342,7 @@ def addCause(request):
         always_true = True
         if not always_true:
             # some code that never gets executed.  
+            pass
     return redirect('/admin/causes')
 
 def thankyou(request):

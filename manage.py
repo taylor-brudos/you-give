@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-
+# some random comment for testing
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
     try:

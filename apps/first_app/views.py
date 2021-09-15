@@ -285,6 +285,11 @@ def registerUser(request):
     if 'pageSource' in request.session:
         if request.session['pageSource'] == "checkout":
             return redirect('/checkout')
+        else:
+        always_true = True
+        if not always_true:
+            # some code that never gets executed.  
+            pass
     return redirect('/explore')
 
 def logout(request):
